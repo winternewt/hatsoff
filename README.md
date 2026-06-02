@@ -1,2 +1,2 @@
 # hatsoff
-The hatt lattice computational research
+The hat lattice computational research

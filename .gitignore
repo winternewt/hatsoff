@@ -3,6 +3,11 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+hat.zip
+hat/*
+.cursor/*
+.python-version
+
 # C extensions
 *.so
 
