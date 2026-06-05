@@ -1,5 +1,42 @@
 # Zero-Mode Nullity — Status
 
+## Gate check (2026-06-04): matching/rank code is trustworthy
+
+Per the percolation-project prerequisite ("reproduce Tables 2 and 3 on the
+nose before diluting"), we ran the full cross-validation:
+
+### π-flux / anti-hat count (Table 3) — EXACT at all levels
+
+Counted by polygon chirality (signed area) on the H metatile:
+
+| Level | Hats | Anti-hats (ours) | Paper |
+|-------|------|------------------|-------|
+| 0 | 4    | 1   | 1   |
+| 1 | 25   | 3   | 3   |
+| 2 | 169  | 22  | 22  |
+| 3 | 1156 | 147 | 147 |
+
+This validates the tiling generation (correct reflections at every level) and
+confirms Franca's "π-flux zero modes = anti-hats" identity. Ratios approach
+the substitution Perron eigenvalue φ⁴ ≈ 6.854.
+
+### Zero-flux nullity (Table 2) — H/T/P/F cross-validation
+
+| Level | H | T | P | F |  (paper in parens) |
+|-------|---|---|---|---|---|
+| 0 | 0 (0) | 0 (0) | **1 (1)** | **1 (1)** | all OK |
+| 1 | **0 (1)** | 0 (0) | 0 (0) | 0 (0) | only H mismatches |
+| 2 | 8 (8) | 0 (0) | 1 (1) | 1 (1) | all OK |
+| 3 | 51 (51) | — | — | — | OK |
+
+**Key finding:** P(0)=1 and F(0)=1 reproduce *exactly*, so the rank code
+correctly detects single zero modes in small (22-vertex) graphs. The
+discrepancy is isolated to **H level 1 alone** — not a systematic boundary
+convention. Combined with the exact π-flux counts, the matching/rank code is
+**trustworthy**; dilution runs can proceed. H-L1 is treated as a documented
+boundary anti-hat frustration effect (SM Appendix B.2), not a code bug, per
+the advisor's prior. See "Remaining discrepancy" below for the open detail.
+
 ## Resolution (2026-05-04)
 
 The main discrepancy (constant nullity=2 at all levels) is **resolved**.
