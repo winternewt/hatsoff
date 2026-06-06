@@ -1,0 +1,129 @@
+# Spectre monotile — future program (sideways extension)
+
+Side-quest scan (web deep-research, archived
+`docs/compass_artifact_wf-9cb25304-…_text_markdown.md`) on porting the hat
+program to the **Spectre** strictly-chiral monotile. Verdict: a **wide-open,
+high-payoff frontier** that our pipeline can reach with one new ingredient.
+
+## Coarse computation results (2026-06-06) — pipeline runs; striking contrast
+
+`hat_amp` 0.2 now ships `hat_amp.spectre` (`generate_spectre_tiling`,
+`generate_spectre_tiling_labeled` → 'S'/'M' Mystic labels, `add/strip_gold_vertex`
+for the Singh–Flicker bipartite↔natural toggle). Our pipeline consumes it
+**unchanged** — `build_tb_graph` handles the polygons (with-gold = 14 unit edges;
+strip-gold = 13 verts with one length-2 edge kept direct), `dilute_sites` /
+`gallai_edmonds` / `rregion_spanning` all run. Coarse results (**zero flux**):
+
+| | clean nullity (L2/L3/L4) | ⟨z⟩ | bipartite | under dilution |
+|---|---|---|---|---|
+| **Hat** | **8 / 51 / extensive** | 2.31 | no | de-percolation (finite p_c≈0.055) |
+| **Spectre (natural, no gold)** | **0 / 0 / 0** (def=1 parity only) | 2.31 | no | nullity *created*: 0→32→76→152→420 at p=0/.02/.05/.10/.30 (L3, N=3563) |
+| **Spectre (with gold)** | 0 (balanced bipartite) | 2.27 | yes | — |
+
+**The decisive finding:** the strictly-chiral Spectre has **no zero-flux zero
+modes at the clean point** (nullity 0 at N up to 26,825), the *opposite* of the
+hat's extensive clean null space. Dilution **creates** zero modes on the Spectre
+(onset), grouping it with the periodic lattices / triangular control — not with
+the hat. So the hat's extensive protected zero-mode sector is a consequence of
+its **achiral, mta-hexagonal-derived local order** (it sits on a deletion of the
+hexagonal lattice → graphene-like Dirac features), which the Spectre lacks
+entirely. This *sharpens* the project's question: **what drives protected zero
+modes on aperiodic monotiles is local order, not aperiodicity per se.**
+
+**Caveats:** (i) nullity=0 holds for both gold/no-gold constructions here, but the
+natural-graph long-edge convention (split vs direct) must be reconciled with
+Schirmann et al.'s exact Spectre TB model before it is load-bearing. (ii) The
+*rich* Spectre zero-mode physics Schirmann/Singh–Flicker describe is at **π-flux**
+(Mystic-localized modes), which our zero-flux pipeline does not yet probe — that
+is where strict chirality could genuinely change the percolation, and where the
+Mystic-nucleation conjecture lives.
+
+## Why it's attractive
+
+- **Strongest robustness argument for finding #4.** If the support-spanning
+  `p_c(L) → 0` we see on the hat *also* holds on the Spectre, the result is
+  **aperiodicity-general**, not a hat accident — a major strengthening (a second
+  substrate is the single most convincing control a referee could ask for). If
+  it *doesn't*, chirality is the knob and that is itself a new result.
+- **Empty niche, even emptier than the hat's.** Per the scan, **no** paper does
+  site-dilution / Gallai–Edmonds / Dulmage–Mendelsohn / zero-mode percolation /
+  IPR / Anderson on the Spectre vertex graph. Only two papers do *any*
+  quantitative spectral/many-body Spectre physics: Singh–Flicker (dimers) and
+  one paragraph of Schirmann et al.
+- **A sharp, testable conjecture.** The Spectre has no reflected tiles; the
+  "anti-hat" role is played by the **Mystic** (a π/6-rotated minority tile,
+  ~1 per 26.6 vertices). Singh–Flicker proved that on the bipartite Spectre
+  (add a "gold" vertex per tile) *all* maximum-matching freedom sits on **Upper
+  Mystics** (Z = 2^(N_Mystic+1)). **Conjecture (now testable with our code):**
+  under site dilution the Gallai–Edmonds factor-critical / R-type regions
+  **nucleate on Mystics and percolate via the substitution hierarchy** — a
+  Mystic-anchored analogue of the hat's anti-hat sublattice-imbalance picture.
+
+## Feasibility — pipeline transfers; only the tiling is new
+
+Our analysis stack is **substrate-agnostic**: everything downstream of
+`(verts, adj)` already works on any vertex graph —
+`hatsoff.{dilution,matching,support}`, `crop_square`, `rregion_spanning`,
+`support_spanning`, the `l3_campaign` / `rregion_campaign` harness, the
+`pc_collapse` / `rregion_analysis` fits, the periodic-control machinery.
+
+**The one blocker:** `hat_amp` ships only the Hat tiling (H/T/P/F substitution);
+there is **no Spectre/Mystic generator**. Building it is the main new work:
+the two-prototile Spectre + Mystic substitution (σ takes right→left handed, so
+the local inflation is σ²; area inflation λ = 4+√15 ≈ 7.873; recursion
+S_{n+1}=M_n+7 S_n, M_{n+1}=M_n+6 S_n). References with the rules: Smith–Myers–
+Kaplan–Goodman-Strauss "A chiral aperiodic monotile" (arXiv:2305.17743) and
+Tatham's 9-tile finite-state transducer refinement (arXiv:2512.16595). Then
+build the vertex graph the same way `hatsoff.graph.build_tb_graph` does for the
+hat (merge coincident polygon vertices; the Spectre 14-gon has 90°/120°/180°
+vertex angles). Natural Spectre vertex graph is **non-bipartite** (like the
+hat) — so Gallai–Edmonds is again the right tool and our code is ready.
+
+## Staged plan (condensed from the scan's recommendations)
+
+0. **Clean baseline.** Spectre/Mystic tiling generator + vertex graph; reproduce
+   Singh–Flicker matching; sublattice imbalance |A|−|B| vs patch size for the
+   bipartite (with-gold) and natural (non-bipartite) graphs. Fixes the zero-mode
+   count and whether Mystics contribute systematically.
+1. **Zero-mode density at 0 and π flux** vs N_Mystic (the missing companion to
+   Schirmann et al.'s hat tables; they give *no* Spectre count). Does π-flux
+   count track N_Mystic/N ≈ 1/26.6 (Mystic-anchoring) or exceed it (chirality
+   generating extra modes)?
+2. **Gallai–Edmonds under site dilution** — D/A/C and factor-critical-component
+   scaling vs vacancy density; **test the Mystic-nucleation conjecture**; and the
+   headline question: **does support spanning `p_c(L) → 0` as on the hat, or
+   finite?** This is the direct reuse of `rregion_campaign` + `rregion_analysis`.
+3. **IPR / multifractality** of Spectre eigenstates (reuse `multifractal.py`
+   scaffold). Intuition: no minority "anti" population to concentrate localized
+   states → states may be *more* uniformly critical than the hat's.
+4. **Anderson disorder / TAI** (standalone — Spectre is *not* in the Roche
+   Carrasco et al. Chevron–Hat–Turtle–Comet tunable family, arXiv:2505.13304).
+
+## Key references (see also `docs/REFLIST.md`)
+
+- **Singh & Flicker**, PRB 109, L220303 (2024); arXiv:2309.14447 ✓ — exact
+  classical+quantum dimer solution on Spectre; Z = 2^(N_Mystic+1); matching
+  freedom only on Upper Mystics. *The* structural anchor. (= REFLIST [F3].)
+- **Smith, Myers, Kaplan, Goodman-Strauss**, *A chiral aperiodic monotile*,
+  arXiv:2305.17743 (Combinatorial Theory, 2024) ✓ — defines Spectre/Tile(1,1),
+  the Spectre+Mystic substitution. The generator spec.
+- **Baake, Gähler, Mazáč, Sadun**, *On the long-range order of the Spectre
+  tilings*, Discrete Comput. Geom. (2025); arXiv:2411.15503 ✓ — σ² inflation,
+  λ=4+√15, pure-point spectrum, chirality-sector structure.
+- **Tatham**, *Finite-state transducers for substitution tilings*,
+  arXiv:2512.16595 — practical 9-tile refinement, useful for generation/enumeration.
+- **Schirmann, Franca, Flicker, Grushin**, PRL 132, 086402 (2024);
+  arXiv:2307.11054 ✓ — one paragraph + 4-row SM table on Spectre; asserts
+  (no data) anti-spectres exhaust π-flux zero modes — treat as conjecture.
+
+## Caveats / decision points
+
+- **Do not start until the hat paper's load-bearing claims are locked** (the
+  rigorous R-region cross-check + ν). Spectre is a *second-paper / extension*
+  scope, not a prerequisite for finding #4.
+- Bipartize-with-gold (Singh–Flicker) vs natural non-bipartite are *different*
+  graphs; decide which is "the" Spectre TB model (the natural non-bipartite one
+  matches the hat treatment and Schirmann et al.).
+- Spectre has **no** Bloch/Dirac structure (vertices don't sit on a periodic
+  hexagonal lattice, unlike the hat) — momentum-space methods won't transfer,
+  but our real-space matching/percolation pipeline doesn't need them.

@@ -112,9 +112,13 @@ clean zero modes are exactly the matching-deficiency modes at L3 too.
 
 > **Conclusive report: [`CAMPAIGN_REPORT.md`](CAMPAIGN_REPORT.md).** The run
 > finished (5390 records: Stage A 1082 @ R=60, Stage B 4308 @ ~120 seeds/point).
-> Stage B settles finding #4: `p_c(L) → 0` (both transitional d0 extrapolate to
-> an intercept consistent with zero). Figures `campaign_stage_{a,b}.png` +
-> `pc_collapse.png` (from `experiments/pc_collapse.py`).
+> Stage B proxy gave `p_c(L) → 0` — **but ⚠ this did NOT survive the rigorous
+> cross-check.** The parameter-free Gallai–Edmonds R-region order parameter
+> (`rregion_campaign.py`, 8 sizes × 300 seeds; `rregion_collapse.png`) gives a
+> **finite** p_c ≈ 0.055; the p_c→0 was a proximity-proxy artifact. See
+> `CAMPAIGN_REPORT.md` §"Rigorous cross-check". Figures
+> `campaign_stage_{a,b}.png` + `pc_collapse.png` (proxy) + `rregion_collapse.png`
+> (rigorous, decisive).
 
 Driver `experiments/l3_campaign.py` (resumable, self-calibrating,
 checkpointed); aggregator `experiments/aggregate_campaign.py` (idempotent,

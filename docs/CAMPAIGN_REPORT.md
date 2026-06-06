@@ -1,5 +1,16 @@
 # L3 campaign — conclusive report
 
+> **⚠ MAJOR UPDATE (2026-06-06, rigorous cross-check) — finding #4 does NOT
+> survive.** The parameter-free Gallai–Edmonds **R-region** spanning order
+> parameter (`rregion_campaign.py`, 8 sizes L≈27–75, **300 seeds/cell**) gives a
+> **FINITE** spanning threshold **p_c ≈ 0.055** (linear extrapolation
+> 0.0546 ± 0.0066), *not* p_c → 0. The "p_c → 0" below was an artifact of the
+> `d0`-proximity proxy. Under the matching-theoretic order parameter the hat's
+> zero-mode R-region percolates at a finite vacancy density — qualitatively
+> **like** the periodic Damle lattices, not unlike them. See the new section
+> **"Rigorous cross-check (the decisive result)"** below; the proxy section that
+> follows is retained for the record but is **superseded**.
+
 Final analysis of the long single-node campaign
 (`experiments/l3_campaign.py`). The run completed on **2026-06-06**
 (`heartbeat = done`) after resuming once from a checkpoint; it reached its 24 h
@@ -22,7 +33,74 @@ patch extent). Site-removal grid p ∈ {0, .02, .05, .08, .10, .12, .15, .20,
 
 ---
 
-## Headline (finding #4): the spanning threshold vanishes as L → ∞
+## Rigorous cross-check (the decisive result) — p_c is FINITE
+
+`experiments/rregion_campaign.py` (multiprocess, 15 cores) +
+`rregion_analysis.py`; figure `docs/figures/rregion_collapse.png`. Same L3
+substrate, **8 window sizes** L ≈ 27/35/42/49/55/62/68/75, **300 seeds/cell**
+(p=0 is the single clean realization). For the four shared sizes the disorder
+realizations are *identical* to the proxy run (same `rng_for` seeds).
+
+Order parameter: the **parameter-free Gallai–Edmonds R-region**. The inessential
+set `D` (forced-monomer sites = where the protected zero modes live) is connected
+via the **projected / shared-neighbour** graph (two R-region sites couple when
+they share a common neighbour — the real even-sublattice structure; on the
+near-bipartite hat `D` is essentially independent so direct `G[D]` adjacency sees
+only isolated monomers). A region **spans** when one projected-connected
+component meets both opposite boundary bands. **No `d0`, no `θ`, no
+eigendecomposition, no gauge choice.**
+
+Result — `P_span(p, L)` crosses ½ at a threshold that **converges to a finite
+value** as L grows, and the curves **sharpen** with L (classic finite-p_c
+percolation, opposite to the proxy whose crossing drifted to 0):
+
+| L | 27 | 35 | 42 | 49 | 55 | 62 | 68 | 75 |
+|---|----|----|----|----|----|----|----|----|
+| p_c(L) | 0.062 | 0.068 | 0.066 | 0.066 | 0.066 | 0.062 | 0.059 | 0.048 |
+
+- **Linear fit** p_c = 0.0546 + 0.349/L → **L→∞ intercept = 0.0546 ± 0.0066**
+  (a *finite* threshold, ~8σ above 0).
+- A pure power-law fit p_c ∼ L^(−1/ν) gives ν ≈ 5.6 (i.e. p_c ∝ L^(−0.18), an
+  extremely slow decay) — so a strict asymptotic →0 cannot be excluded from
+  these sizes, but the data **favour a finite p_c ≈ 0.05–0.06**.
+
+**Interpretation.** The dramatic finding #4 ("p_c → 0, qualitatively unlike every
+periodic lattice in the Damle program") was a **proximity-proxy artifact**. Under
+the rigorous matching-theoretic order parameter the hat's R-region percolates at
+a **finite** vacancy density, like the periodic lattices. The qualitative
+headline contrast is **removed**.
+
+**What does survive (still real, parity-/proxy-free):**
+- The hat has an **extensive clean-limit null space** (51 zero modes at L3;
+  in-window def ≈ 64) → its R-region **spans at p = 0** and is *destroyed* at the
+  finite p_c ≈ 0.055. Periodic lattices have **no** clean R-region (def = 0) and
+  must *create* one with dilution (onset). So the hat and periodic lattices still
+  differ in *direction* (de-percolation from an extensive clean null space vs
+  onset), but both have a **finite** p_c — a much subtler statement than #4.
+- Stage-A structural findings #1 (extensive negative non-bipartite gap) and #3
+  (small-p blossom peak) are unaffected.
+- A methodological result worth stating: a geometric proximity proxy for
+  zero-mode-support percolation can **fake a vanishing threshold**; the
+  matching-theoretic R-region is the trustworthy probe.
+
+**Caveat / open:** the two largest windows show a downturn (p_c 0.066→0.048 for
+L=62→75). Larger L (L4 via GPU/cluster) would settle finite-p_c vs very-slow-→0.
+Until then, the honest statement is **finite p_c ≈ 0.055 on accessible sizes**.
+
+**Periodic control** (`periodic_control.py`, triangular, `periodic_control.png`):
+confirms the code finds **no** R-region at the clean point of a perfectly-matched
+lattice (def=0 → no spanning), and that the binary D-spanning probe is parity-
+and lattice-connectivity-dominated there — so it does not isolate the
+Bhola–Damle intermediate p_c at small sizes, but it does validate the clean-limit
+behaviour and the regime contrast (hat: extensive clean R-region; periodic: none).
+
+---
+
+## (SUPERSEDED) Proxy headline (finding #4): spanning threshold vanishes as L → ∞
+
+> Retained for the record. The d0-proximity proxy below indicated p_c → 0; the
+> rigorous cross-check above shows this was an artifact and the true (matching-
+> theoretic) threshold is finite.
 
 The spatial spanning probability of the zero-mode support, `P_span(p, L)`,
 **decreases monotonically with system size at every finite p** and is pinned to

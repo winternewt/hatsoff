@@ -1,5 +1,19 @@
 # Novelty assessment — zero-mode dilution on the hat monotile
 
+> **⚠ STATUS DOWNGRADE (2026-06-06): the #4 headline did NOT survive its own
+> cross-check.** The rigorous, parameter-free Gallai–Edmonds R-region order
+> parameter (`docs/CAMPAIGN_REPORT.md` §"Rigorous cross-check") gives a **FINITE**
+> spanning threshold p_c ≈ 0.055, not p_c → 0; the proximity-proxy p_c→0 was an
+> artifact. So the flagship claim "p_c→0, qualitatively unlike every periodic
+> Damle lattice" is **retracted**. The literature gate below (Q1/Q2) is still
+> valid — the *niche* (aperiodic monotile + matching + dilution) remains open and
+> unstudied — but the headline RESULT that filled it is gone. **Net: from GREEN
+> (novel headline) to a weaker "first study of an open niche, finite p_c like
+> periodic lattices" + residual angles (extensive clean-limit R-region; findings
+> #1/#3; a methodological proxy-artifact caution).** Reassess paper framing
+> before proceeding — see CLAUDE.md "Pending decision". The pre-cross-check
+> assessment is retained below for the record.
+
 > **STATUS: GREEN (updated 2026-06-05).** A focused web deep-research run
 > (`docs/compass_artifact_wf-95d25a67-…_text_markdown.md`) resolved both
 > make-or-break questions **in our favor**. The earlier "yellow" assessment

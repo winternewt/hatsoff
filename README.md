@@ -13,21 +13,19 @@ cover: random-hopping vs on-site disorder, and the growth/localization of the
 null space under dilution — the non-bipartite analogue of the
 Dulmage–Mendelsohn percolation of Bhola–Biswas–Islam–Damle.
 
-> **Status: research in progress — novelty GREEN (2026-06-05).** A focused web
-> deep-research scan cleared both make-or-break questions: (Q1) **p_c → 0 is not
-> Gade–Wegner chiral-class folklore** — it is a Gallai–Edmonds *combinatorial
-> support* statement, distinct from Anderson-localization scaling; (Q2) the
-> *aperiodic-monotile + matching/Gallai–Edmonds + dilution* niche is **open**.
-> Closest live work to cite-and-distinguish: Roche Carrasco et al. PRL 135,
-> 236603 (Dec 2025, Anderson on a Chern hat model) and Daníelsson–Sigurðsson
-> arXiv:2605.29023 (continuum-polariton hat multifractality). Headline =
-> finding #4, now **numerically demonstrated**: the L3 campaign (complete,
-> 2026-06-06) gives a spanning threshold `p_c(L)` whose `L → ∞` intercept is
-> consistent with **zero** for both transitional proximity distances
-> ([`docs/CAMPAIGN_REPORT.md`](docs/CAMPAIGN_REPORT.md),
-> `docs/figures/pc_collapse.png`). Remaining upgrade is a non-proxy spanning
-> order parameter, not a literature question. See
-> [`docs/NOVELTY.md`](docs/NOVELTY.md) and [`docs/REFLIST.md`](docs/REFLIST.md).
+> **Status: research in progress — headline #4 RETRACTED (2026-06-06).** The
+> proximity-proxy result `p_c(L) → 0` did **not** survive its rigorous
+> cross-check: the parameter-free Gallai–Edmonds **R-region** order parameter
+> (`rregion_campaign.py`, 8 sizes × 300 seeds) gives a **finite** spanning
+> threshold **p_c ≈ 0.055** (`docs/figures/rregion_collapse.png`), so the hat
+> percolates at a finite vacancy density **like** the periodic Damle lattices —
+> the "qualitatively unlike" headline is gone. The literature niche (aperiodic
+> monotile + matching + dilution) is still open and unstudied; what survives is
+> the hat's **extensive clean-limit R-region** (spans at p=0, destroyed at finite
+> p_c), structural findings #1/#3, and a methodological caution (a geometric
+> proxy can fake p_c→0). Framing under reassessment — see
+> [`docs/CAMPAIGN_REPORT.md`](docs/CAMPAIGN_REPORT.md) §"Rigorous cross-check",
+> [`docs/NOVELTY.md`](docs/NOVELTY.md), [`docs/REFLIST.md`](docs/REFLIST.md).
 
 ## Results so far (where to read)
 
@@ -35,11 +33,12 @@ Dulmage–Mendelsohn percolation of Bhola–Biswas–Islam–Damle.
 |---|---|---|
 | Zero-mode count gate | [`docs/NULLITY.md`](docs/NULLITY.md) | π-flux/anti-hat counts (1/3/22/147) reproduced exactly; zero-flux 0/1/8/51 match except an isolated H-L1 boundary effect → matching/rank code trusted. |
 | Disorder fragility | [`docs/DISORDER.md`](docs/DISORDER.md) | Modes are **robust to hopping disorder** (structural/matching protection), **fragile to on-site (chiral-breaking)** disorder and to **bond/site removal**. |
-| Dilution + Gallai–Edmonds | [`docs/PERCOLATION.md`](docs/PERCOLATION.md) | nullity ≈ deficiency; non-bipartite gap is small at L2 but **extensive and growing at L3**; trapped-weight fraction intensive (0→0.44); support spanning **p_c(L) → 0** (demonstrated). |
-| L3 campaign — final report | [`docs/CAMPAIGN_REPORT.md`](docs/CAMPAIGN_REPORT.md) | Conclusive write-up of the completed run (5390 records): Stage A scalings + the finding-#4 finite-size collapse, with caveats. |
-| Novelty / prior art | [`docs/NOVELTY.md`](docs/NOVELTY.md) | **GREEN** — per-finding (a/b/c) verdict + deep-research gate (Q1/Q2) + competitors. |
+| Dilution + Gallai–Edmonds | [`docs/PERCOLATION.md`](docs/PERCOLATION.md) | nullity ≈ deficiency; non-bipartite gap **extensive & growing at L3**; trapped fraction intensive (0→0.44). The proxy gave support spanning `p_c(L)→0` — **⚠ retracted** (see cross-check below). |
+| L3 campaign — final report | [`docs/CAMPAIGN_REPORT.md`](docs/CAMPAIGN_REPORT.md) | Conclusive write-up (proxy + rigorous). **§"Rigorous cross-check" is load-bearing:** parameter-free GE R-region gives **finite p_c ≈ 0.055**; the proxy `p_c→0` was an artifact. |
+| Novelty / prior art | [`docs/NOVELTY.md`](docs/NOVELTY.md) | **⚠ DOWNGRADED from GREEN** — #4 headline retracted. Literature niche still open; surviving angles = extensive clean R-region, #1/#3, proxy-artifact caution, hat↔Spectre contrast. |
 | Curated bibliography | [`docs/REFLIST.md`](docs/REFLIST.md) | References + per-ref "how to use when writing" hints — kept fresh as work proceeds. |
-| Deep-research scan | [`docs/compass_artifact_…_text_markdown.md`](docs) | Full web deep-research report (verbatim) backing the GREEN verdict. |
+| Future / live direction: Spectre | [`docs/SPECTRE_TODO.md`](docs/SPECTRE_TODO.md) | Coarse result: strictly-chiral Spectre has **no zero-flux clean modes** (vs hat's extensive) → *local order, not aperiodicity, drives the modes*. Pipeline runs on `hat_amp.spectre` unchanged. |
+| Deep-research scans | [`docs/compass_artifact_…_text_markdown.md`](docs) | Two verbatim web scans: `*95d25a67*` = novelty (Q1/Q2); `*9cb25304*` = Spectre frontier. |
 | Re-run literature scan | [`docs/deepresearch_prompt.md`](docs/deepresearch_prompt.md) | Focused follow-up prompt (open questions only) for a web deep-research tool. |
 
 ## Repository map

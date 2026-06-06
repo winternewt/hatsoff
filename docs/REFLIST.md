@@ -189,6 +189,25 @@ the **random geometry of GE under dilution**, which none of them treat.
   report synthesis; verify exact arXiv number + bibliographic details.
 - **How to use:** connect a future hat IPR section to the Penrose/AB tradition.
 
+## Tier 5b — Spectre extension (future; see `docs/SPECTRE_TODO.md`)
+
+For the strictly-chiral Spectre monotile as a *second substrate* testing whether
+finding #4 is aperiodicity-general. [F3] above is the structural anchor.
+
+- **[SP1] D. Smith, J. S. Myers, C. S. Kaplan, C. Goodman-Strauss**, *A chiral
+  aperiodic monotile*, arXiv:2305.17743 (Combinatorial Theory, 2024) ✓. —
+  defines Spectre/Tile(1,1) + the Spectre+Mystic two-prototile substitution.
+  The generator spec for a Spectre tiling builder.
+- **[SP2] M. Baake, F. Gähler, T. Mazáč, L. Sadun**, *On the long-range order of
+  the Spectre tilings*, Discrete Comput. Geom. (2025); arXiv:2411.15503 ✓. —
+  σ² inflation, area factor λ=4+√15, pure-point spectrum, chirality sectors.
+- **[SP3] J. Tatham**, *Finite-state transducers for substitution tilings*,
+  arXiv:2512.16595. — practical 9-tile refinement of Spectre/Mystic; useful for
+  generation + matching enumeration. **⚠id/⚠pub** — preprint; verify ID.
+- **How to use:** [F3]+[SP1] anchor the Spectre matching structure (freedom on
+  Upper Mystics, Z=2^(N_Mystic+1)); [SP2] fixes the inflation; cite [S2]'s
+  one-paragraph Spectre remark as the only prior TB touchpoint.
+
 ## Tier 6 — method / tooling
 
 - **[E1] J. Edmonds**, *Paths, trees, and flowers*, Canad. J. Math. **17**, 449
@@ -204,9 +223,9 @@ the **random geometry of GE under dilution**, which none of them treat.
 ## Open citation TODOs
 
 - [ ] **⚠id refs — verify before bibliography:** [F2] Lloyd et al. (PRB 106,
-      094202 — vol/page + arXiv) and [M3] Rieth–Grimm–Schreiber (cond-mat/
-      9809117 — exact ID + details). These came via report synthesis, not a
-      directly fetched page.
+      094202 — vol/page + arXiv), [M3] Rieth–Grimm–Schreiber (cond-mat/9809117 —
+      exact ID + details), and [SP3] Tatham (arXiv:2512.16595 — confirm ID/status).
+      These came via report synthesis, not a directly fetched page.
 - [ ] **⚠pub refs — confirm journal status before submission:** [S4] 2311.05634,
       [S5] 2512.23639, [D1] 2605.29023, [B1] 2604.21165 (all preprints; IDs ✓).
 - [ ] If we add the IPR/multifractal section, promote [M1]/[M2]/[D1] to Tier 1.

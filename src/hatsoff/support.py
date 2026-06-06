@@ -11,10 +11,16 @@ sites span a window?  Zero modes live on even-distance (Sutherland) sites, so
 two active sites are linked by spatial proximity (KDTree within ``d0``), not by
 direct graph adjacency — then a union-find with virtual edge electrodes tests
 top-bottom / left-right crossing, reusing the ``hat_amp.percolation`` pattern.
+
+``rregion_spanning`` is the rigorous, parameter-free counterpart: it tests
+whether a single Gallai--Edmonds factor-critical component (the matching-theory
+R-region) spans the window, using only graph connectivity — no ``d0``, no
+``theta``, no eigendecomposition.
 """
 
 from __future__ import annotations
 
+import networkx as nx
 import numpy as np
 import scipy.linalg
 import scipy.sparse
@@ -165,6 +171,84 @@ def support_spanning(
     roots = np.array([uf.find(i) for i in range(n_active)])
     _, counts = np.unique(roots, return_counts=True)
     result["largest_cluster_frac"] = float(counts.max()) / float(m)
+
+    def band_roots(band: np.ndarray) -> set[int]:
+        return {uf.find(local[int(x)]) for x in band if int(x) in local}
+
+    tb = bool(band_roots(top) & band_roots(bottom))
+    lr = bool(band_roots(left) & band_roots(right))
+    result["top_bottom"] = tb
+    result["left_right"] = lr
+    result["either"] = tb or lr
+    return result
+
+
+def rregion_spanning(
+    graph: nx.Graph,
+    d_nodes: np.ndarray,
+    top: np.ndarray,
+    bottom: np.ndarray,
+    left: np.ndarray,
+    right: np.ndarray,
+) -> dict:
+    """Does the matching-theoretic R-region span the window? (parameter-free)
+
+    The **rigorous, parameter-free** counterpart of ``support_spanning``.  The
+    Gallai--Edmonds inessential set ``D`` (``d_nodes``) is the R-region: the
+    sites forced to carry a monomer in some maximum matching, where the
+    topologically-protected zero-mode weight lives.
+
+    Connectivity is the **projected (shared-neighbour) graph** on ``D``: two
+    R-region sites are linked when they are adjacent *or* share a common
+    neighbour.  This is the genuine even-sublattice structure of the zero-mode
+    support — on the (near-bipartite, non-bipartite) hat ``D`` is essentially an
+    independent set, so direct ``G[D]`` adjacency would see only isolated
+    monomers; sites couple through the odd (A) sites between them.  The
+    ``support_spanning`` proxy approximates exactly this coupling with a tunable
+    Euclidean distance ``d0``; here it is fixed by the graph, with **no ``d0``,
+    no support threshold ``theta``, and no kernel eigendecomposition / gauge
+    choice**.  A region **spans** when one projected-connected component meets
+    both opposite boundary bands.
+
+    Args:
+        graph: The (diluted) adjacency graph; node labels index the
+            boundary-band arrays the caller supplies.
+        d_nodes: Gallai--Edmonds inessential set ``D`` (node labels), e.g.
+            ``gallai_edmonds(graph, "fast").D``.
+        top, bottom, left, right: node-label arrays for each boundary band.
+
+    Returns:
+        dict: ``top_bottom``, ``left_right``, ``either`` (bools), ``n_dnodes``
+        (|D|), ``n_components`` (projected-connected R-region count),
+        ``largest_comp_frac`` (largest R-region size / N).
+    """
+    m = graph.number_of_nodes()
+    result = {
+        "top_bottom": False, "left_right": False, "either": False,
+        "n_dnodes": int(d_nodes.size), "n_components": 0,
+        "largest_comp_frac": 0.0,
+    }
+    if d_nodes.size == 0 or m == 0:
+        return result
+
+    d_set = {int(x) for x in d_nodes}
+    local = {int(v): i for i, v in enumerate(d_nodes.tolist())}
+    uf = WeightedQuickUnionUF(len(local))
+
+    # Project onto D: each vertex w links all of its D-neighbours together
+    # (shared-neighbour coupling); direct D-D edges link their endpoints.
+    for w in graph.nodes():
+        dn = [local[x] for x in graph.neighbors(w) if x in d_set]
+        for k in range(1, len(dn)):
+            uf.union(dn[0], dn[k])
+    for u, v in graph.edges():
+        if u in d_set and v in d_set:
+            uf.union(local[u], local[v])
+
+    roots = np.array([uf.find(i) for i in range(len(local))])
+    _, counts = np.unique(roots, return_counts=True)
+    result["n_components"] = int(counts.size)
+    result["largest_comp_frac"] = float(counts.max()) / float(m)
 
     def band_roots(band: np.ndarray) -> set[int]:
         return {uf.find(local[int(x)]) for x in band if int(x) in local}
