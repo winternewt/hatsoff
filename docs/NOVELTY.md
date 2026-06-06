@@ -1,11 +1,68 @@
 # Novelty assessment — zero-mode dilution on the hat monotile
 
+> **STATUS: GREEN (updated 2026-06-05).** A focused web deep-research run
+> (`docs/compass_artifact_wf-95d25a67-…_text_markdown.md`) resolved both
+> make-or-break questions **in our favor**. The earlier "yellow" assessment
+> below (salvaged from a crashed in-harness run) is superseded on the two gate
+> questions; the per-finding verdicts and reference map remain valid and are
+> now augmented. See "Deep-research verdict" immediately below.
+
+## Deep-research verdict (2026-06-05) — GREEN
+
+Both gate questions answered:
+
+- **Q1 — Is p_c → 0 just chiral-class (Gade–Wegner) folklore? → NO.** Two
+  genuinely different objects were being conflated. *Gade–Wegner* (classes
+  AIII/BDI/CII) concerns the Anderson localization length / multifractal scaling
+  of **generic random-hopping eigenstates at E=0 on a full lattice** (König–
+  Ostrovsky–Protopopov–Mirlin PRB 85, 195130 (2012); Brouwer et al. PRB 66,
+  014204 (2002)). *Our p_c* concerns the **geometric spanning of the
+  Gallai–Edmonds R-regions** (forced-monomer sites) under **site dilution** — a
+  Hamiltonian-disorder-independent combinatorial property. Both can be true at
+  once; they answer different questions. Every periodic lattice in the Damle
+  program has **finite** p_c, so our p_c → 0 is a real departure, not folklore.
+- **Q2 — Is the aperiodic-monotile + matching/Gallai–Edmonds + dilution niche
+  occupied? → NO, OPEN.** No preprint/journal/thesis/APS abstract 2023–2026
+  combines (i) aperiodic tiling + (ii) site dilution + (iii) maximum-matching /
+  Gallai–Edmonds zero-mode analysis.
+
+**Two new adjacent competitors surfaced — cite up front, neither preempts:**
+- **Roche Carrasco, Schirmann, Mordret, Grushin, PRL 135, 236603 (4 Dec 2025);
+  arXiv:2505.13304** — tunable aperiodic-tiling family + two-orbital QWZ **Chern**
+  model, with a uniform **on-site Anderson** disorder / topological-Anderson
+  section. NOT vacancy dilution, NOT the vertex graph, NOT zero-mode/matching.
+  Currently the *only* Hat-TB + disorder paper in PRL → reviewers will know it;
+  distinguish on those three points.
+- **Daníelsson & Sigurðsson, arXiv:2605.29023 (27 May 2026)** — multifractal /
+  D_q of a **continuum polariton** Hat (Gaussian scatterers on hat vertices),
+  not the vertex-adjacency TB model, no zero-mode/dilution/matching. Leaves our
+  vertex-TB multifractal angle open too.
+
+**Headline framing recommended by the scan:** lead with finding #4 —
+*"On aperiodic monotiles, Gallai–Edmonds support percolation collapses to the
+clean point — qualitatively unlike every periodic lattice in the Damle program."*
+Findings #1/#3 are supporting structural diagnostics. The single highest-leverage
+upgrade: a **finite-size collapse** of the spanning probability / support
+fraction at 2–3 small p across the largest tractable sizes, fit to
+p_c(L) ∼ L^(−1/ν), to convert "trend suggests p_c → 0" into "scaling collapse
+demonstrates p_c → 0." (Optional second upgrade: a modest vertex-TB IPR /
+multifractal sketch separating E=0 from E≠0 — would be the first such data on
+the hat and preempt a TB version of Daníelsson–Sigurðsson.)
+
+**Stop signals:** a 2026 preprint doing our exact dilution+matching analysis on
+Hat/Spectre (none at time of writing) → pivot framing; any new Bhola–Damle
+output adding aperiodic content → revisit positioning immediately. Window is
+open but the Flicker bridge (co-author on both the hat-PRL and the Penrose-dimer
+PRX) means it will not stay open indefinitely — move quickly.
+
+---
+
+## (Superseded) earlier bottom line — yellow
+
 Salvaged from the (crashed) deep-research run: the verification phase had
 completed with 9 adversarially-verified claims (3-vote) before the final
 synthesis step failed. The load-bearing "finite vs zero threshold" fact was
 re-confirmed by direct WebFetch. Confidence levels marked per item.
-
-## Bottom line (go / no-go)
 
 **Yellow light.** The matching-theory ↔ zero-mode-percolation *framework* is
 NOT ours to claim — the Damle group (TIFR) owns it and is actively extending
@@ -14,9 +71,10 @@ done it on an aperiodic monotile**, and Franca et al.'s monotile paper does no
 dilution/matching/percolation at all. So the *substrate is open*, and one of
 our results — finding #4 (p_c → 0) — would be a genuine qualitative departure
 from the **finite** thresholds they find on periodic non-bipartite lattices,
-**if** it survives a non-proxy treatment. Verdict: worth pursuing only if we
-(a) reframe around what is aperiodic-specific and (b) nail #4 rigorously;
-otherwise it risks reading as "Bhola–Damle on yet another lattice."
+**if** it survives a non-proxy treatment. (Now upgraded to GREEN per the
+2026-06-05 scan above: #4 is confirmed not-folklore and the niche confirmed
+open; the remaining condition is the rigorous finite-size collapse, not a
+literature risk.)
 
 ## Reference map (verified)
 
@@ -52,25 +110,41 @@ and its incipient-percolation growth — the core object of "chaotic percolation
 
 **#4 — Zero-mode support spanning with p_c → 0 (vs finite p_c on bipartite/
 periodic non-bipartite lattices).**
-Verdict **potentially (c) — the one flag-worthy result, conditional.**
+Verdict **(c) — the headline result. Novelty confirmed (2026-06-05).**
 The bipartite case (2007.04974) and periodic non-bipartite case (2311.05634)
 both have **finite** thresholds (WebFetch-confirmed for the latter). A genuine
-p_c → 0 on the *aperiodic* monotile would be a qualitative, aperiodicity-driven
-difference with no found precedent. **Conditions to trust it:** (i) replace the
-proximity-proxy spanning with a rigorous per-mode / R-region spanning order
-parameter; (ii) confirm finite-size trend across all d0 and larger L; (iii)
-rule out that it is generic chiral-class random-hopping localization
-(cond-mat/0201580, 1304.5968) rather than monotile-specific.
+p_c → 0 on the *aperiodic* monotile is a qualitative, aperiodicity-driven
+difference with no found precedent. **Condition (iii) — rule out chiral-class
+folklore — is now RESOLVED:** the deep-research scan establishes that p_c → 0
+is a matching/Gallai–Edmonds (combinatorial support) statement, distinct from
+Gade–Wegner Anderson-localization scaling (see Q1 above). **Remaining
+conditions (numerics, not literature):** (i) replace the proximity-proxy
+spanning with a rigorous per-mode / R-region spanning order parameter;
+(ii) finite-size collapse p_c(L) ∼ L^(−1/ν) across d0 and larger L. **(ii) is
+now DONE** — the completed L3 campaign (`docs/CAMPAIGN_REPORT.md`) gives an
+`L→∞` intercept consistent with 0 for both transitional d0 (1.2: +0.004±0.015;
+1.4: −0.005±0.015). **(i) remains** the next step before #4 is load-bearing.
 
 ## Direct competitors
 
 - **Damle group (TIFR): Bhola, Biswas, Islam, Damle.** Own the entire
   machinery — bipartite (2022) → non-bipartite periodic (2023) → kagome
-  (Dec 2025). They are the people most likely to do the monotile next; the
-  niche is open but not safe indefinitely.
+  (Dec 2025). As of Dec 2025 (2512.23639) they show **no sign** of moving to
+  aperiodic substrates, but are the people most likely to do the monotile next;
+  the niche is open, not safe indefinitely.
 - **Grushin / Flicker / Schirmann / Franca** (monotile zero modes) could bolt
-  dilution onto their own model.
-- Classical monotile percolation (2604.21165) shows the substrate is on radar.
+  dilution onto their own model. Their PRL 135, 236603 (Dec 2025) /
+  arXiv:2505.13304 already does **on-site Anderson** disorder on a Chern
+  hat-family model — the closest live work, but a different model and not
+  matching/vacancy/zero-mode. Flicker bridges the hat-PRL and the
+  Penrose-dimer PRX → cross-group overlap is the real competitive risk.
+- **Daníelsson & Sigurðsson (Iceland/Warsaw), arXiv:2605.29023 (May 2026)** —
+  multifractality of a continuum-polariton Hat; not the vertex-TB model, no
+  zero-mode/matching. Owns the "hat multifractality" label for the continuum
+  case; our vertex-TB IPR angle remains open.
+- Classical monotile percolation (2604.21165, Gao–Bharadwaj, Apr 2026) shows
+  the substrate is on radar; geometric Bernoulli, orthogonal to our quantum
+  question.
 
 ## Caveats
 

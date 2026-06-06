@@ -108,7 +108,13 @@ clean zero modes are exactly the matching-deficiency modes at L3 too.
    GF(p) rank on the integer adjacency) so the gap and support fields scale
    alongside GE.
 
-## L3 overnight campaign (running)
+## L3 campaign — COMPLETE (2026-06-06)
+
+> **Conclusive report: [`CAMPAIGN_REPORT.md`](CAMPAIGN_REPORT.md).** The run
+> finished (5390 records: Stage A 1082 @ R=60, Stage B 4308 @ ~120 seeds/point).
+> Stage B settles finding #4: `p_c(L) → 0` (both transitional d0 extrapolate to
+> an intercept consistent with zero). Figures `campaign_stage_{a,b}.png` +
+> `pc_collapse.png` (from `experiments/pc_collapse.py`).
 
 Driver `experiments/l3_campaign.py` (resumable, self-calibrating,
 checkpointed); aggregator `experiments/aggregate_campaign.py` (idempotent,
@@ -168,14 +174,28 @@ Three findings, the first two genuinely new:
    "blossoms") is most prominent just past the clean point and is larger in
    larger systems — the structural signature absent from bipartite lattices.
 
-### First L3 confirmations (clean + smoke)
+### Stage B results — COMPLETE (finding #4), `docs/figures/pc_collapse.png`
 
-- L3 clean: nullity = deficiency = 51 (gap 0), via fast GE and dense eigh.
-- L3 p=0.10: nullity 296, def 297, gap −1, trapped_frac 0.19 — same
-  near-zero-gap, proliferating-trapped behavior as L2.
-- Support spanning: clean spans (d0 ≥ 1.2); by p=0.10 it no longer spans even
-  at d0 = 1.6 → a sharp drop, p_c likely small (the p∈{0.02,0.05,0.08} grid
-  brackets it). The window family will test for a size-independent crossing.
+Support spatial spanning on crop windows L ≈ 35/49/62/75, ~120 seeds/point,
+d0 ∈ {1.0,1.2,1.4,1.6}. The spanning probability `P_span(p,L)` **decreases
+monotonically with size at every finite p** and is pinned to 1 only at p = 0.
+Extracting `p_c(L)` as the `P_span = ½` crossing and fitting `p_c = a + b/L`:
+
+| d0 | p_c(35) | p_c(49) | p_c(62) | p_c(75) | intercept a (L→∞) |
+|----|---------|---------|---------|---------|-------------------|
+| 1.2 | 0.048 | 0.042 | 0.038 | 0.019 | **+0.004 ± 0.015** |
+| 1.4 | 0.061 | 0.047 | 0.043 | 0.020 | **−0.005 ± 0.015** |
+
+d0 = 1.0 never spans (support too sparse — no crossing); d0 = 1.6 spans up to
+large p (only L≈75 crosses in-grid). The transition lives at d0 = 1.2 / 1.4 and
+**both extrapolate to ~0** — the robustness we claim. This is finding #4:
+`p_c → 0` on the aperiodic hat, vs **finite** p_c on every periodic Damle
+lattice. See `CAMPAIGN_REPORT.md` for the full discussion + caveats (proximity
+proxy; few sizes / mild curvature; non-proxy order parameter is the next
+upgrade before this is load-bearing).
+
+(Supersedes the earlier preliminary read "clean spans, p=0.10 does not span at
+any d0" — qualitatively the same, now quantified with the size family.)
 
 ## References
 
