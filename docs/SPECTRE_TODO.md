@@ -149,6 +149,36 @@ Per unit: π-flux nullity, Mystic-support fraction (gauge-invariant `diag(P)` on
   spanning a window) — `support_spanning` machinery exists but this run did not
   record positions/boundary bands. A targeted smaller re-run recording them would
   settle transition-vs-crossover; current honest statement is **smooth crossover**.
+  *(Update: the d0-proxy spanning probe `spectre_flux_spanning_campaign.py` was
+  built/run anyway — see "Multifractal / spanning" below — but it is the same
+  proxy that faked p_c→0, so it stays suggestive; the smooth-crossover statement
+  holds.)*
+
+## Multifractal / IPR + π-flux spanning (2026-06-07)
+
+Cheap follow-ups (deferred the expensive disorder-averaged D_q program):
+
+- **Tier A — π-flux zero-mode support scaling** (`spectre_flux_multifractal.py`,
+  reuses the 33k flux records → `docs/figures/spectre_flux_multifractal.png`).
+  The gauge-invariant support participation `support_pr ~ N^τ`: under dilution
+  **τ ≈ 0.95 (R²≈1.000)** — the π-flux zero-mode support is **extended /
+  near-critical** (occupies a finite fraction of sites), consistent with the
+  enrichment→1 delocalization. At the clean point τ reads ~1.2 but that is a
+  boundary artifact (small windows clip the Mystic-localized clean modes) — no
+  clean D2 assignable there from the windowed proxy.
+- **Tier B — clean band-centre multifractality** (`multifractal_clean.py`,
+  zero-flux real spectrum, full `eigh`, levels 1–3 → `docs/figures/multifractal_clean.png`).
+  Band-centre (|E|<0.25, excl. exact zeros) mean PR ~ N^{D2}: **hat D2 = 0.639**,
+  **Spectre D2 = 0.712** (R²≈1.000). Both monotile vertex graphs host
+  **multifractal critical band-centre states** (0<D2<1); the hat is slightly
+  *more* multifractal. (Connects to Daníelsson–Sigurðsson hat multifractality,
+  REFLIST.) Caveat: 3 sizes, clean only — a first look, not the full D_q spectrum.
+- **π-flux spanning probe** (`spectre_flux_spanning_campaign.py` →
+  `spectre_flux_spanning.jsonl`; `spectre_flux_spanning_analysis.py` →
+  `docs/figures/spectre_flux_spanning.png`). Records `support_spanning` over
+  d0∈{1.2,1.6,2.0} × window family. **⚠ d0-PROXY only** (no GE analog at π flux);
+  read across d0/sizes, treat as suggestive. The robust crossover statement is
+  Tier A / `spectre_flux_consolidate.py`.
 
 ## Why it's attractive
 

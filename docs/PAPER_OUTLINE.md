@@ -70,8 +70,12 @@ Schirmann et al.'s one paragraph. Niche confirmed open (NOVELTY.md Q1/Q2).
    periodic = control. ⇒ **local order (hexagonal descent / chirality), not
    aperiodicity, is the knob.** Methodological note (proxy artifact).
 
-9. **Conclusion + outlook.** L4 hat (finite vs slow→0), Spectre π-flux
-   de-percolation spanning probe, IPR/multifractal, Anderson/TAI.
+9. **Conclusion + outlook.** L4 hat (finite vs slow→0); Anderson/TAI; full
+   disorder-averaged D_q multifractal spectrum (tier C). *First look already in
+   hand:* clean band-centre states are **multifractal** on both substrates
+   (D2: hat 0.64, Spectre 0.71; `multifractal_clean.py`), and the diluted π-flux
+   zero-mode support is **extended** (τ≈0.95; `spectre_flux_multifractal.py`).
+   A π-flux spanning probe exists but is d0-proxy-only (suggestive).
 
 ## Status of evidence (what exists vs to-do)
 
