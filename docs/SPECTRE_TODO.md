@@ -89,15 +89,33 @@ anti-spectres exhaust the π-flux zero modes.
 both Gamma halves, so 11.25% Mystic compounds; the deep-research artifact's "~1
 per 26.6 vertices" is not what the generator yields — flag for the write-up.)
 
-**Dilution campaign (`experiments/spectre_flux_campaign.py`, running 2026-06-07,
-10h, resumable JSONL + heartbeat, 15-way `multiprocessing`, BLAS pinned to 1).**
-L3 natural-split full graph + 6 cropped windows (N≈793→3563), p∈[0,0.40] (14
-points) × up to 1000 seeds.  Per unit: π-flux nullity, Mystic-support fraction
-(gauge-invariant `diag(P)` on 'M' sites — the Mystic-nucleation probe), and the
-support-field participation ratio.  Smoke run: clean kernel **~79% Mystic-
-localized**, dilution *creates* modes (35→77→168 in a window) while the Mystic
-fraction falls (0.79→0.58→0.40).  Analysis/figure: `spectre_flux_analysis.py` →
-`docs/figures/spectre_flux.png`.
+**Dilution campaign DONE (`experiments/spectre_flux_campaign.py` →
+`spectre_flux_campaign.jsonl`, 2026-06-07, full 10h budget, 15-way
+`multiprocessing` BLAS-pinned).** **33047 units, 364 seeds, 0 errors**; L3
+natural-split full graph + 6 cropped windows (N≈793→3563), p∈[0,0.40] (14 points).
+Per unit: π-flux nullity, Mystic-support fraction (gauge-invariant `diag(P)` on
+'M' sites — the Mystic-nucleation probe), support-field PR.  Analysis:
+`spectre_flux_analysis.py` → `docs/figures/spectre_flux.png`;
+`spectre_flux_consolidate.py` → `docs/figures/spectre_flux_consolidate.png`.
+
+**Findings (consolidated):**
+- *Clean point.* Full-graph π-flux kernel is **100% Mystic-localized**
+  (mystic_support_frac = 1.000; cropped windows leak at the boundary and
+  extrapolate to ≈1.07 in 1/L). Nullity density → **0.0177 = (Mystic
+  compounds)/N** = (N_Mystic/2)/N (63/3563), i.e. exactly one protected π-flux
+  zero mode per Mystic, *all* of its weight on Mystic sites. Clean enrichment
+  2.57 = 1/(Mystic-vertex fraction 0.389).
+- *Dilution.* Nullity density climbs (full 0.018→0.234 over p∈[0,0.40]); the
+  Mystic **enrichment decays monotonically to ~1.0** (uniform) — disorder-created
+  modes are **delocalized, not Mystic-anchored**. The enrichment→1.1 crossover is
+  at a **size-independent p\*≈0.15** (σ=0.024 across windows) ⇒ a **smooth
+  crossover, not a sharp de-percolation transition** in this observable. The clean
+  (Mystic-nucleated) and diluted (delocalized) sectors are physically distinct.
+- *Caveat / open.* A genuine *de-percolation* claim for the Mystic-localized
+  sector needs a **π-flux support-spanning order parameter** (kernel `diag(P)`
+  spanning a window) — `support_spanning` machinery exists but this run did not
+  record positions/boundary bands. A targeted smaller re-run recording them would
+  settle transition-vs-crossover; current honest statement is **smooth crossover**.
 
 ## Why it's attractive
 

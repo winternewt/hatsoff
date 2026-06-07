@@ -13,7 +13,24 @@
 > #1/#3; a methodological proxy-artifact caution).** Reassess paper framing
 > before proceeding — see CLAUDE.md "Pending decision". The pre-cross-check
 > assessment is retained below for the record.
+>
+> **UPDATE 2026-06-07 — the reframe has a genuinely novel positive result.** The
+> hat-vs-Spectre contrast under the *same* aperiodicity is now quantitative and
+> the **first** spectral data on the Spectre vertex graph beyond Schirmann's one
+> paragraph: zero-flux clean nullity 0 (vs hat's extensive), and **π-flux clean
+> nullity = N_Mystic/2 = one protected mode per Mystic, 100%-Mystic-localized in
+> the TD limit** (`src/hatsoff/flux.py`, `docs/SPECTRE_TODO.md`) — the first
+> *quantitative* check of Schirmann et al.'s data-free anti-spectre conjecture.
+> This **supports the thesis** (*local order, not aperiodicity, governs protected
+> zero modes*: hat's achiral hexagonal order → extensive clean modes; chiral
+> Spectre → modes only at π flux, on its Mystic minority). Net verdict now:
+> **YELLOW-GREEN** — open niche + a novel positive Spectre result + the honest
+> negative #4 + the proxy-artifact methodology, not a single retracted headline.
 
+> **⟦ARCHIVED — pre-cross-check assessment, retained for the record. The
+> "GREEN" verdict below is SUPERSEDED by the 2026-06-06 downgrade above; read it
+> only for the still-valid Q1/Q2 literature gate, not for the headline verdict.⟧**
+>
 > **STATUS: GREEN (updated 2026-06-05).** A focused web deep-research run
 > (`docs/compass_artifact_wf-95d25a67-…_text_markdown.md`) resolved both
 > make-or-break questions **in our favor**. The earlier "yellow" assessment

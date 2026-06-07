@@ -249,9 +249,11 @@ src/hatsoff/
 experiments/      # proxy: l3_campaign.py, aggregate_campaign.py, pc_collapse.py
                   # rigorous: rregion_campaign.py (parallel), rregion_analysis.py
                   # control: periodic_control.py ; cluster: l3_campaign_cluster.py, submit_l3.sbatch
-                  # spectre π-flux: spectre_reconcile.py (long-edge convention), spectre_flux_campaign.py (dilution, parallel), spectre_flux_analysis.py
+                  # spectre π-flux: spectre_reconcile.py (long-edge convention), spectre_flux_campaign.py (dilution, parallel), spectre_flux_analysis.py + spectre_flux_consolidate.py
+                  # spectre zero-flux (comparative): spectre_rregion_campaign.py (GE R-region vs p, parallel) → spectre_rregion.jsonl
                   # also dilution_sweep.py (L2); outputs *.jsonl / *.heartbeat / *.log
-docs/             # NULLITY, DISORDER, PERCOLATION, CAMPAIGN_REPORT, NOVELTY, REFLIST, SPECTRE_TODO, PLAN, deepresearch_prompt, THEHAT
+docs/             # NULLITY, DISORDER, PERCOLATION, CAMPAIGN_REPORT, NOVELTY, REFLIST, SPECTRE_TODO, PAPER_OUTLINE, PLAN, deepresearch_prompt, THEHAT
+                  #   PAPER_OUTLINE = reframed paper structure (2026-06-07) after #4 retraction; thesis = local order not aperiodicity
                   #   CAMPAIGN_REPORT = conclusive L3 report; §"Rigorous cross-check" = the live result
                   #   NOVELTY = DOWNGRADED from GREEN (#4 retracted); REFLIST = annotated bib (keep fresh)
                   #   SPECTRE_TODO = Spectre program + coarse results (the reframe direction)
