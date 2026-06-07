@@ -99,19 +99,20 @@ def main() -> None:
     axes[0].set(xlabel="vacancy density p", ylabel="deficiency / N",
                 title="(a) deficiency density (≈ nullity/N)")
 
-    _plot_family(axes[1], ah, "comp_frac", "C0", "hat")
-    _plot_family(axes[1], asp, "comp_frac", "C3", "Spectre")
+    # Headline panel: spanning probability vs p.  Hat decreases monotonically
+    # from 1 (extensive clean R-region de-percolating); Spectre is non-monotonic
+    # — 0 at clean, peaks at small p (dilution CREATES the R-region: onset).
+    _plot_family(axes[1], ah, "span", "C0", "hat")
+    _plot_family(axes[1], asp, "span", "C3", "Spectre")
     axes[1].axvline(0.055, color="k", ls=":", lw=0.8)
-    axes[1].set(xlabel="vacancy density p", ylabel="largest R-region / N",
-                title="(b) R-region order parameter (dotted: hat p_c≈0.055)")
+    axes[1].set(xlabel="vacancy density p", ylabel="P(R-region spans)",
+                ylim=(-0.03, 1.03),
+                title="(b) spanning prob: hat de-percolates vs Spectre onset")
 
-    for recs, color, lab in [(hat, "C0", "hat"), (spec, "C3", "Spectre")]:
-        pts = clean_NL(recs)
-        if pts:
-            Ns, fr = zip(*pts)
-            axes[2].plot(Ns, fr, "o-", color=color, ms=5, label=lab)
-    axes[2].set(xlabel="window N", ylabel="largest R-region / N  (p=0)",
-                title="(c) clean point: extensive (hat) vs intensive (Spectre)")
+    _plot_family(axes[2], ah, "comp_frac", "C0", "hat")
+    _plot_family(axes[2], asp, "comp_frac", "C3", "Spectre")
+    axes[2].set(xlabel="vacancy density p", ylabel="largest R-region / N",
+                title="(c) R-region order parameter")
 
     for ax in axes:
         ax.grid(alpha=0.3)

@@ -79,7 +79,8 @@ Schirmann et al.'s one paragraph. Niche confirmed open (NOVELTY.md Q1/Q2).
 |---|---|---|
 | R1 count gate | `tests/test_flux.py`, NULLITY | ✅ done |
 | R2 hat dilution + p_c | `l3_rregion.jsonl`, `rregion_collapse.png`, CAMPAIGN_REPORT | ✅ done |
-| R3 clean contrast + R5 control | hat `l3_rregion` + `spectre_rregion.jsonl` (running) + `periodic_control` | ⏳ Spectre campaign running; needs a 3-substrate comparative figure |
+| R3 hat-vs-Spectre contrast | `hat_vs_spectre_rregion.png` (hat `l3_rregion` + `spectre_rregion.jsonl`, 16206 units) | ✅ done — hat de-percolates (P(span):1→0) vs Spectre onset (0→peak@p≈0.02→0) |
+| R5 periodic control | `periodic_control.py` (figure only, no jsonl) | ⏳ re-emit data for a 3-substrate overlay (optional polish) |
 | R4 π-flux Mystic | `spectre_flux*.png`, SPECTRE_TODO | ✅ done |
 | Outlook | — | optional (L4 GPU; π-flux spanning re-run) |
 
