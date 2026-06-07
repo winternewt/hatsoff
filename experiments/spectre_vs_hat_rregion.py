@@ -38,6 +38,7 @@ import numpy as np  # noqa: E402
 EXP_DIR = Path(__file__).parent
 HAT = EXP_DIR / "l3_rregion.jsonl"
 SPECTRE = EXP_DIR / "spectre_rregion.jsonl"
+PERIODIC = EXP_DIR / "periodic_rregion.jsonl"
 FIG = EXP_DIR.parent / "docs" / "figures" / "hat_vs_spectre_rregion.png"
 
 
@@ -67,13 +68,6 @@ def aggregate(recs: list[dict]) -> dict:
     return out
 
 
-def clean_NL(recs: list[dict]) -> list[tuple[float, float]]:
-    """(N, largest_comp_frac) at p=0, sorted by N."""
-    pts = [(r["N"], r["spanning"]["largest_comp_frac"])
-           for r in recs if r["p"] == 0.0]
-    return sorted(set(pts))
-
-
 def _plot_family(ax, agg: dict, metric: str, color, label: str) -> None:
     wins = sorted(agg.keys())
     for i, win in enumerate(wins):
@@ -85,51 +79,63 @@ def _plot_family(ax, agg: dict, metric: str, color, label: str) -> None:
 
 
 def main() -> None:
-    hat, spec = load(HAT), load(SPECTRE)
-    print(f"hat: {len(hat)} records; spectre: {len(spec)} records")
+    hat, spec, peri = load(HAT), load(SPECTRE), load(PERIODIC)
+    print(f"hat: {len(hat)} records; spectre: {len(spec)} records; "
+          f"periodic: {len(peri)} records")
     if not spec:
         print("no spectre data yet — run spectre_rregion_campaign.py first")
         return
     ah, asp = aggregate(hat), aggregate(spec)
+    ape = aggregate(peri) if peri else None
+    # (substrate, agg, colour, label)
+    families = [(ah, "C0", "hat"), (asp, "C3", "Spectre")]
+    if ape:
+        families.append((ape, "C2", "periodic (tri.)"))
 
     fig, axes = plt.subplots(1, 3, figsize=(17, 4.8))
 
-    _plot_family(axes[0], ah, "def_density", "C0", "hat")
-    _plot_family(axes[0], asp, "def_density", "C3", "Spectre")
+    for agg_, color, lab in families:
+        _plot_family(axes[0], agg_, "def_density", color, lab)
     axes[0].set(xlabel="vacancy density p", ylabel="deficiency / N",
                 title="(a) deficiency density (≈ nullity/N)")
 
-    # Headline panel: spanning probability vs p.  Hat decreases monotonically
-    # from 1 (extensive clean R-region de-percolating); Spectre is non-monotonic
-    # — 0 at clean, peaks at small p (dilution CREATES the R-region: onset).
-    _plot_family(axes[1], ah, "span", "C0", "hat")
-    _plot_family(axes[1], asp, "span", "C3", "Spectre")
+    # Spanning probability vs p (seed-averaged for p>0).  NB the clean p=0 point
+    # is a single realization per window and is boundary-parity contaminated for
+    # Spectre/periodic — read the def-density panel (a) + full-graph nullity for
+    # the clean contrast, not this p=0 value.  Dotted: hat p_c≈0.055 (from the
+    # dedicated parity-controlled rregion_campaign, not this windowed overlay).
+    for agg_, color, lab in families:
+        _plot_family(axes[1], agg_, "span", color, lab)
     axes[1].axvline(0.055, color="k", ls=":", lw=0.8)
     axes[1].set(xlabel="vacancy density p", ylabel="P(R-region spans)",
                 ylim=(-0.03, 1.03),
-                title="(b) spanning prob: hat de-percolates vs Spectre onset")
+                title="(b) spanning prob vs p (p=0 boundary-noisy; dotted hat p_c≈0.055)")
 
-    _plot_family(axes[2], ah, "comp_frac", "C0", "hat")
-    _plot_family(axes[2], asp, "comp_frac", "C3", "Spectre")
+    for agg_, color, lab in families:
+        _plot_family(axes[2], agg_, "comp_frac", color, lab)
     axes[2].set(xlabel="vacancy density p", ylabel="largest R-region / N",
                 title="(c) R-region order parameter")
 
     for ax in axes:
         ax.grid(alpha=0.3)
         ax.legend(fontsize=8)
-    fig.suptitle("Hat vs Spectre — Gallai–Edmonds R-region under site dilution "
-                 "(zero flux)")
+    fig.suptitle("Hat vs Spectre vs periodic — Gallai–Edmonds R-region under "
+                 "site dilution (zero flux): hat de-percolates, the others onset")
     fig.tight_layout()
     FIG.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(FIG, dpi=140)
     print(f"wrote {FIG}")
 
-    # quick numeric contrast for the caption
-    print("\nclean-point largest_comp_frac vs N:")
-    for lab, recs in [("hat", hat), ("Spectre", spec)]:
-        pts = clean_NL(recs)
-        if pts:
-            print(f"  {lab}: " + ", ".join(f"N={n}:{f:.3f}" for n, f in pts))
+    # quick numeric contrast for the caption: P(span) at clean and small p
+    print("\nP(span) at p=0 / p=0.02 / p=0.05 (mid window):")
+    for lab, agg_ in [("hat", ah), ("Spectre", asp)] + (
+            [("periodic", ape)] if ape else []):
+        wins = sorted(agg_)
+        w = wins[len(wins) // 2]
+        row = agg_[w]
+        def g(p: float) -> str:
+            return f"{row[p]['span']:.2f}" if p in row else "  - "
+        print(f"  {lab:9s} (L={w}): {g(0.0)} / {g(0.02)} / {g(0.05)}")
 
 
 if __name__ == "__main__":

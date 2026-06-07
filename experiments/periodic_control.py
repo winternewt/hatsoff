@@ -26,14 +26,19 @@ one (p_c → 0).  Same code on both ⇒ the hat's behaviour is a property of the
 substrate, not a bug.
 
     uv run python experiments/periodic_control.py
-Writes ``docs/figures/periodic_control.png`` and prints P_span, deficiency
-density, and largest-R-region fraction vs (p, L).
+Writes ``docs/figures/periodic_control.png``, prints P_span / deficiency density /
+largest-R-region fraction vs (p, L), and emits per-unit records to
+``experiments/periodic_rregion.jsonl`` in the same schema as ``l3_rregion.jsonl``
+and ``spectre_rregion.jsonl`` (``stage``/``window``/``L``/``p``/``seed``/``N``/
+``n_kept``/``deficiency``/``spanning{either,largest_comp_frac}``) so the periodic
+control overlays directly in ``spectre_vs_hat_rregion.py``.
 Tunable: ``HATSOFF_CTRL_SEEDS`` (default 40), ``HATSOFF_CTRL_M`` (lattice rows,
 default 64).
 """
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 from types import SimpleNamespace
@@ -51,7 +56,9 @@ from hatsoff.dilution import dilute_sites
 from hatsoff.matching import adjacency_to_graph, gallai_edmonds
 from hatsoff.support import rregion_spanning
 
-FIG = Path(__file__).parent.parent / "docs" / "figures" / "periodic_control.png"
+EXP_DIR = Path(__file__).parent
+FIG = EXP_DIR.parent / "docs" / "figures" / "periodic_control.png"
+JSONL = EXP_DIR / "periodic_rregion.jsonl"
 P_GRID = [0.0, 0.02, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.55, 0.60]
 FRACTIONS = [0.45, 0.60, 0.75, 0.90]
 SEEDS = int(os.environ.get("HATSOFF_CTRL_SEEDS", "40"))
@@ -79,36 +86,49 @@ def adj_from_edges(n: int, edges: np.ndarray) -> scipy.sparse.csr_matrix:
     return scipy.sparse.coo_matrix((data, (r, c)), shape=(n, n)).tocsr()
 
 
-def window_stats(window, p: float, seeds: int) -> dict:
-    """Mean spanning prob, deficiency density, and largest-R-region fraction."""
-    n_w = window.node_count
-    w_adj = adj_from_edges(n_w, window.edges)
-    spanned = 0
-    def_density: list[float] = []
-    largest: list[float] = []
-    for s in range(seeds):
-        rng = np.random.default_rng(10_000 + s * 7 + int(round(p * 1000)))
-        sv, sa, kept = dilute_sites(window.nodes, w_adj, p, rng)
-        new_index = {int(old): new for new, old in enumerate(kept)}
+def unit_record(window, frac: float, p: float, seed: int,
+                w_adj: scipy.sparse.csr_matrix) -> dict:
+    """One (window, p, seed) record in the shared rregion-campaign schema."""
+    rng = np.random.default_rng(10_000 + seed * 7 + int(round(p * 1000)))
+    sv, sa, kept = dilute_sites(window.nodes, w_adj, p, rng)
+    new_index = {int(old): new for new, old in enumerate(kept)}
 
-        def remap(arr: np.ndarray) -> np.ndarray:
-            return np.array([new_index[int(x)] for x in arr
-                             if int(x) in new_index], dtype=int)
+    def remap(arr: np.ndarray) -> np.ndarray:
+        return np.array([new_index[int(x)] for x in arr
+                         if int(x) in new_index], dtype=int)
 
-        g = adjacency_to_graph(sa)
-        ge = gallai_edmonds(g, method="fast")
-        r = rregion_spanning(g, ge.D,
-                             remap(window.top_boundary_nodes),
-                             remap(window.bottom_boundary_nodes),
-                             remap(window.left_boundary_nodes),
-                             remap(window.right_boundary_nodes))
-        spanned += int(r["either"])
-        def_density.append(ge.deficiency / max(sa.shape[0], 1))
-        largest.append(r["largest_comp_frac"])
+    g = adjacency_to_graph(sa)
+    ge = gallai_edmonds(g, method="fast")
+    r = rregion_spanning(g, ge.D,
+                         remap(window.top_boundary_nodes),
+                         remap(window.bottom_boundary_nodes),
+                         remap(window.left_boundary_nodes),
+                         remap(window.right_boundary_nodes))
     return {
-        "P_span": spanned / seeds,
-        "def_density": float(np.mean(def_density)),
-        "largest_frac": float(np.mean(largest)),
+        "stage": "P", "window": frac, "L": float(window.L_value),
+        "p": p, "seed": seed, "N": int(window.node_count),
+        "n_kept": int(sa.shape[0]), "deficiency": int(ge.deficiency),
+        "spanning": {"either": bool(r["either"]),
+                     "largest_comp_frac": float(r["largest_comp_frac"])},
+        "key": f"P|tri|w{frac}|p{p}|s{seed}",
+    }
+
+
+def window_stats(window, frac: float, p: float, seeds: int,
+                 records: list[dict]) -> dict:
+    """Mean spanning prob, deficiency density, largest-R-region fraction.
+
+    Appends each per-seed record (shared schema) to ``records``.
+    """
+    w_adj = adj_from_edges(window.node_count, window.edges)
+    rows = [unit_record(window, frac, p, s, w_adj) for s in range(seeds)]
+    records.extend(rows)
+    return {
+        "P_span": float(np.mean([r["spanning"]["either"] for r in rows])),
+        "def_density": float(np.mean([r["deficiency"] / max(r["n_kept"], 1)
+                                      for r in rows])),
+        "largest_frac": float(np.mean([r["spanning"]["largest_comp_frac"]
+                                       for r in rows])),
     }
 
 
@@ -125,11 +145,12 @@ def main() -> None:
               f"L={windows[f].L_value:.1f}")
 
     stats: dict[float, list[dict]] = {}
+    records: list[dict] = []
     print(f"\ntriangular R-region vs p ({SEEDS} seeds) — P_span / def-density / "
           f"largest-frac:")
     print("  L\\p   " + " ".join(f"{p:>5.2f}" for p in P_GRID))
     for f in FRACTIONS:
-        row = [window_stats(windows[f], p, SEEDS) for p in P_GRID]
+        row = [window_stats(windows[f], f, p, SEEDS, records) for p in P_GRID]
         stats[f] = row
         lval = windows[f].L_value
         print(f"  P L≈{lval:4.0f} " + " ".join(f"{r['P_span']:5.2f}" for r in row))
@@ -164,6 +185,11 @@ def main() -> None:
     fig.savefig(FIG, dpi=140)
     plt.close(fig)
     print(f"\nwrote {FIG}")
+
+    with JSONL.open("w") as fh:
+        for rec in records:
+            fh.write(json.dumps(rec) + "\n")
+    print(f"wrote {JSONL} ({len(records)} records)")
 
 
 if __name__ == "__main__":

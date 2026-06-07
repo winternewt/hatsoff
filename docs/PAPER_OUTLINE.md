@@ -79,11 +79,13 @@ Schirmann et al.'s one paragraph. Niche confirmed open (NOVELTY.md Q1/Q2).
 |---|---|---|
 | R1 count gate | `tests/test_flux.py`, NULLITY | ✅ done |
 | R2 hat dilution + p_c | `l3_rregion.jsonl`, `rregion_collapse.png`, CAMPAIGN_REPORT | ✅ done |
-| R3 hat-vs-Spectre contrast | `hat_vs_spectre_rregion.png` (hat `l3_rregion` + `spectre_rregion.jsonl`, 16206 units) | ✅ done — hat de-percolates (P(span):1→0) vs Spectre onset (0→peak@p≈0.02→0) |
-| R5 periodic control | `periodic_control.py` (figure only, no jsonl) | ⏳ re-emit data for a 3-substrate overlay (optional polish) |
+| R3+R5 three-substrate contrast | `hat_vs_spectre_rregion.png` (hat `l3_rregion` + `spectre_rregion.jsonl` 16206 + `periodic_rregion.jsonl` 1600) | ✅ done — robust discriminator = **full-graph clean nullity (hat 51 / Spectre 0 / periodic 0) + def-density scaling**; only the hat has an extensive clean R-region (sustained def/N, spans 8/8 windows) that de-percolates; Spectre & periodic onset. ⚠ windowed clean `P(span)` is boundary-parity contaminated — not the discriminator. |
 | R4 π-flux Mystic | `spectre_flux*.png`, SPECTRE_TODO | ✅ done |
 | Outlook | — | optional (L4 GPU; π-flux spanning re-run) |
 
-**Immediate next after the Spectre rregion campaign lands:** a single
-hat-vs-Spectre-vs-periodic comparative figure (R-region spanning fraction &
-deficiency density vs p, finite-size family) — the visual centerpiece of R3/R5.
+**Discriminator caveat (load-bearing for the figure caption):** report the
+clean contrast via **full-graph nullity** and **deficiency-density scaling**, not
+the windowed clean `P(span)` (boundary-parity noise inflates Spectre/periodic
+spanning at p=0). The hat's finite p_c≈0.055 is from the dedicated parity-
+controlled `rregion_campaign` finite-size scaling (`CAMPAIGN_REPORT`), not the
+windowed comparative overlay (which is qualitative).

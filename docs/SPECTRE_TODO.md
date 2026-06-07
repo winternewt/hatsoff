@@ -38,32 +38,38 @@ zero-mode physics Schirmann/Singh–Flicker describe is at **π-flux** (Mystic-
 localized modes), which our zero-flux pipeline does not yet probe. **[NOW PROBED
 2026-06-07 — π-flux Hamiltonian ported to `src/hatsoff/flux.py`; see below.]**
 
-## Zero-flux R-region: hat vs Spectre under dilution (comparative, 2026-06-07)
+## Zero-flux R-region: hat vs Spectre vs periodic under dilution (comparative, 2026-06-07)
 
-`experiments/spectre_rregion_campaign.py` (16206 units, 6 windows N≈623→2756,
-p∈[0,0.30], 300 seeds; the hat-`rregion_campaign` harness on the Schirmann-
-consistent Spectre) → `spectre_rregion.jsonl`;
-`spectre_vs_hat_rregion.py` → `docs/figures/hat_vs_spectre_rregion.png`. The
-parameter-free GE R-region **spanning probability vs p** is the clean
-discriminator (window L≈0.55):
+Three substrates, **same** parameter-free GE R-region pipeline on crop windows:
+hat `l3_rregion.jsonl` (21608 units); Spectre `spectre_rregion_campaign.py` →
+`spectre_rregion.jsonl` (16206 units, 6 windows N≈623→2756, p∈[0,0.30], 300
+seeds, Schirmann-consistent graph); periodic triangular `periodic_control.py` →
+`periodic_rregion.jsonl` (1600 units). Overlay:
+`spectre_vs_hat_rregion.py` → `docs/figures/hat_vs_spectre_rregion.png`.
 
-| p | hat P(span) | Spectre P(span) |
-|---|---|---|
-| 0.00 | **1.00** | **0.00** |
-| 0.02 | 0.99 | **0.61** |
-| 0.05 | 0.76 | 0.47 |
-| 0.10 | 0.09 | 0.09 |
-| ≥0.15 | 0 | 0 |
+**⚠ What does and does NOT discriminate.** The clean-point *windowed* spanning
+`P(span)` is **boundary-parity contaminated** and must NOT be read as the p=0
+order parameter: cropping injects boundary monomers that the projected
+shared-neighbour graph blobs into a spanning component even where the bulk has
+none (Spectre clean spans 5/6 windows; periodic 2/4 — pure parity). The robust,
+parity-free discriminators are the **full-graph clean nullity** and the
+**deficiency-density scaling**:
 
-**The hat de-percolates monotonically** from a spanning *extensive clean*
-R-region (P=1 at p=0 → 0 by p≈0.12; finite p_c≈0.055). **The Spectre is
-onset-type / non-monotonic:** no clean R-region (P=0 at p=0), dilution *creates*
-a spanning one (peak at p≈0.02), which then de-percolates. Deficiency density
-(≈nullity/N) grows similarly for both (~0.017→0.17), so the *creation* of modes
-is shared — but only the hat has the protected clean sector. (Caveat: clean-point
-*windowed* `largest_comp_frac`/deficiency are boundary-dominated for both and do
-**not** discriminate — use P(span) vs p, not the p=0 window number.) This is the
-paper's R3/R5 contrast (periodic triangular = the third leg, `periodic_control`).
+| substrate | full-graph clean nullity | clean windowed def/N (vs N) | under dilution |
+|---|---|---|---|
+| **hat** | **51 (extensive)** | ~0.013–0.021, **sustained** (spans all 8/8 windows) | R-region present at p=0, **de-percolates at finite p_c≈0.055** (dedicated `rregion_campaign` finite-size scaling) |
+| **Spectre** | **0** | 0.014→0.007, **decreasing → 0** (boundary only) | def/N rises from ~0: R-region **created** by dilution (onset) |
+| **periodic (tri.)** | 0 (perfectly matchable) | **≈0.000** (no R-region) | def/N rises from 0: R-region **created** (onset; + parity plateau, lattice fragments p≈0.55) |
+
+**The contrast (paper R3/R5):** only the **hat** carries an *extensive clean
+R-region* (nullity 51; spans every window; sustained def/N) that **de-percolates**
+under dilution. The strictly-chiral **Spectre** and the **periodic** lattice both
+**lack** it (full-graph nullity 0; def/N → 0 at clean) and instead **create** an
+R-region only at finite p (onset). Deficiency density rises with p for all three
+(mode *creation* is generic), so the discriminating feature is the **clean limit**:
+the hat's protected sector is the outlier. ⇒ supports the thesis — the hat's
+achiral, mta-hexagonal-derived **local order** (not aperiodicity, which the
+Spectre shares) is what carries the extensive protected zero-mode sector.
 
 ## π-flux reconciliation + Mystic sector (2026-06-07)
 
