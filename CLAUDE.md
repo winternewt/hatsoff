@@ -78,13 +78,30 @@ chiral Spectre has **nullity 0 (zero-flux) at the clean point** for N up to 2682
 — *opposite* of the hat's extensive clean null space (8/51). Dilution *creates*
 zero modes (onset, like the periodic lattices / triangular control), not
 de-percolation. ⇒ the hat's protected zero modes come from its achiral,
-mta-hexagonal-derived local order, not from aperiodicity. The genuinely novel
-direction is the **clean-limit hat-vs-Spectre contrast** (zero flux) + the
-**π-flux Mystic-localized modes** (rich Spectre physics our zero-flux pipeline
-doesn't yet probe — needs flux/complex hoppings; Mystic-nucleation conjecture
-lives there). Caveat: natural-graph long-edge convention must be reconciled with
-Schirmann et al. before load-bearing. Scope = follow-up to the (now negative-
-result) hat paper.
+mta-hexagonal-derived local order, not from aperiodicity.
+**π-flux now in-pipeline + reconciled (2026-06-07, `src/hatsoff/flux.py`):** the
+Peierls complex Hamiltonian (`B=π/A_tile`, uniform π per equal-area tile face) is
+ported; the count gate (`tests/test_flux.py`) reproduces the hat π-flux
+**1/3/22/147** with `build_tb_graph`, which **proves our edge convention =
+Schirmann's** and settles the long-edge caveat. The Schirmann-consistent natural
+Spectre (gold stripped, long edge through its real shared midpoint =
+`build_tb_graph`, *not* the redundant-chord "direct" nor the with-gold
+bipartization) has zero-flux nullity 0 but **clean π-flux nullity = N_Mystic/2 =
+one protected mode per Mystic compound** (L1/2/3 = 1/8/63; the strict-chiral
+analogue of "one per anti-hat") — first quantitative check of Schirmann's
+data-free anti-spectre conjecture. `experiments/spectre_reconcile.py` tabulates
+direct-vs-split-vs-gold. **Dilution campaign DONE (2026-06-07,
+`spectre_flux_campaign.py` → `spectre_flux_campaign.jsonl`, 33047 units, 364 seeds,
+L3 full + 6 windows N≈793→3563, p∈[0,0.40]; `spectre_flux_analysis.py` →
+`docs/figures/spectre_flux.png`):** clean-point Mystic-support fraction **rises
+with size → 1.000 on the full graph** (enrichment 2.57 = 1/0.389) — i.e. **all
+clean π-flux zero modes live entirely on Mystics** in the TD limit (strongest form
+of the conjecture; matches Singh–Flicker). Under dilution nullity/N grows but the
+Mystic **enrichment decays monotonically to ~1.0** by p≈0.3 — disorder-created
+modes are delocalized, *not* Mystic-anchored: the clean (Mystic-nucleated) and
+diluted sectors are physically distinct. Use **dense complex `eigh` with the RRR
+value-subset** for π-flux nullity (not `eigsh`; see perf note in Numerical
+pitfalls). Scope = follow-up to the (now negative-result) hat paper.
 
 **Campaigns (`experiments/`) — all COMPLETE, nothing running:**
 - `l3_campaign.py` — the **proxy** campaign (dense-`eigh`, BLAS-threaded).
@@ -172,9 +189,35 @@ Levels 3-4 are the sweet spot. Level 5 can run overnight.
   cores for free); the GE matching is **pure-Python single-threaded**, so the
   rigorous campaign parallelizes across realizations with `multiprocessing`
   (`HATSOFF_NPROC`), not BLAS.
-- Spectre natural (non-bipartite) graph: nullity=0 at clean is **construction-
-  dependent** (long-edge split vs direct; gold vs no-gold) — reconcile with
-  Schirmann et al.'s exact Spectre TB model before any nullity claim is load-bearing.
+- **Dense `eigh` real cost — budget campaigns from THESE numbers, not "seconds"**
+  (this box: 16 cores, `scipy-openblas` 0.3.31; measured 2026-06-07):
+  - Full **complex** Hermitian `eigh`, **1 BLAS thread**: N=1200 → 3.4s (zheevd) /
+    4.9s (evr); N=2400 → 31s / 9.4s; N=3563 → **117s / 56s**. 16-thread `zheevd`:
+    N=3563 → ~104s, N=7047 → **~555s**. Cost is ~O(N³); real `syevd` ≈ ⅓–½ of
+    complex at the same N.
+  - **Two big constant-factor wins** (both used in `flux.py` / the Spectre campaign):
+    (1) the **RRR driver beats divide-and-conquer** for large complex Hermitian
+    here — `scipy.linalg.eigh(driver="evr")` is ~2× faster than `np.linalg.eigh`
+    (zheevd); (2) when only the kernel is needed, the **value-subset**
+    `subset_by_value=(-1e-6,1e-6)` is a further ~3–5× (it still pays the O(N³)
+    tridiagonalization but skips most eigenvector back-transforms), and is exact
+    on degeneracy (verified to 305-fold) where `eigsh` under-counts.
+  - **Throughput rule:** for many small-N solves, run `HATSOFF_NPROC`
+    single-thread (`OPENBLAS_NUM_THREADS=1`) processes — the Spectre π-flux
+    campaign did **33k units (L3, N≤3563, 364 seeds) in its 10h budget** this way.
+    L4 (N≈27k) dense complex is infeasible (~hours/solve, ~TB RAM) → GPU/sparse only.
+- Spectre natural (non-bipartite) graph: nullity at clean is **construction-
+  dependent** (long-edge split vs direct; gold vs no-gold). **RECONCILED 2026-06-07:**
+  the count gate (hat π-flux 1/3/22/147 reproduced by `build_tb_graph`) proves the
+  Schirmann-consistent graph = `build_tb_graph` on gold-stripped 13-gons (long edge
+  = two unit bonds through its *real* shared midpoint; **not** the redundant-chord
+  "direct" graph, **not** the with-gold bipartization). Use this for all Spectre TB.
+  Zero-flux nullity 0; π-flux nullity = N_Mystic/2. See `docs/SPECTRE_TODO.md`.
+- **π-flux nullity must use dense complex `eigh`** (real-valued matching/GE does
+  not apply); only the kernel is needed, so prefer
+  `scipy.linalg.eigh(driver="evr", subset_by_value=(-1e-6, 1e-6))` — ~5× cheaper
+  than a full spectrum and exact on the degenerate null space (verified to 305-fold),
+  where `eigsh` would silently under-count.
 
 ## Dependencies
 
@@ -202,9 +245,11 @@ src/hatsoff/
   matching.py     # matching_number, deficiency, gallai_edmonds (fast blossom + slow ref), nullspace_support
   support.py      # kernel_support (nullity+diag(P)); support_spanning (d0-PROXY, retracted); rregion_spanning (rigorous, parameter-free — THE trusted probe); set_dense_eigh for GPU
   multifractal.py # participation ratios, D2 scaling (Phase 2 scaffolding, not yet pursued)
+  flux.py         # π-flux Peierls complex Hamiltonian (build_flux_hamiltonian), flux_kernel (dense complex eigh / RRR subset), tile_area + signed_tile_area, label_vertex_mask (Mystic sites)
 experiments/      # proxy: l3_campaign.py, aggregate_campaign.py, pc_collapse.py
                   # rigorous: rregion_campaign.py (parallel), rregion_analysis.py
                   # control: periodic_control.py ; cluster: l3_campaign_cluster.py, submit_l3.sbatch
+                  # spectre π-flux: spectre_reconcile.py (long-edge convention), spectre_flux_campaign.py (dilution, parallel), spectre_flux_analysis.py
                   # also dilution_sweep.py (L2); outputs *.jsonl / *.heartbeat / *.log
 docs/             # NULLITY, DISORDER, PERCOLATION, CAMPAIGN_REPORT, NOVELTY, REFLIST, SPECTRE_TODO, PLAN, deepresearch_prompt, THEHAT
                   #   CAMPAIGN_REPORT = conclusive L3 report; §"Rigorous cross-check" = the live result

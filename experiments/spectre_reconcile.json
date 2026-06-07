@@ -1,0 +1,89 @@
+[
+  {
+    "level": 1,
+    "n_tiles": 9,
+    "n_mystic_tiles": 2,
+    "natural-direct": {
+      "N": 73,
+      "n_edges": 85,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 0,
+      "n_mystic_vertices": 22,
+      "pi_per_mystic_tile": 0.0
+    },
+    "natural-split": {
+      "N": 73,
+      "n_edges": 81,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 1,
+      "n_mystic_vertices": 22,
+      "pi_per_mystic_tile": 0.5
+    },
+    "with-gold": {
+      "N": 78,
+      "n_edges": 86,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 4,
+      "n_mystic_vertices": 22,
+      "pi_per_mystic_tile": 2.0
+    }
+  },
+  {
+    "level": 2,
+    "n_tiles": 71,
+    "n_mystic_tiles": 16,
+    "natural-direct": {
+      "N": 491,
+      "n_edges": 599,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 0,
+      "n_mystic_vertices": 176,
+      "pi_per_mystic_tile": 0.0
+    },
+    "natural-split": {
+      "N": 491,
+      "n_edges": 561,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 8,
+      "n_mystic_vertices": 176,
+      "pi_per_mystic_tile": 0.5
+    },
+    "with-gold": {
+      "N": 518,
+      "n_edges": 588,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 18,
+      "n_mystic_vertices": 176,
+      "pi_per_mystic_tile": 1.125
+    }
+  },
+  {
+    "level": 3,
+    "n_tiles": 559,
+    "n_mystic_tiles": 126,
+    "natural-direct": {
+      "N": 3563,
+      "n_edges": 4427,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 0,
+      "n_mystic_vertices": 1386,
+      "pi_per_mystic_tile": 0.0
+    },
+    "natural-split": {
+      "N": 3563,
+      "n_edges": 4121,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 63,
+      "n_mystic_vertices": 1386,
+      "pi_per_mystic_tile": 0.5
+    },
+    "with-gold": {
+      "N": 3734,
+      "n_edges": 4292,
+      "nullity_zero_flux": 0,
+      "nullity_pi_flux": 126,
+      "n_mystic_vertices": 1386,
+      "pi_per_mystic_tile": 1.0
+    }
+  }
+]

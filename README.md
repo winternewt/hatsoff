@@ -37,7 +37,7 @@ Dulmage–Mendelsohn percolation of Bhola–Biswas–Islam–Damle.
 | L3 campaign — final report | [`docs/CAMPAIGN_REPORT.md`](docs/CAMPAIGN_REPORT.md) | Conclusive write-up (proxy + rigorous). **§"Rigorous cross-check" is load-bearing:** parameter-free GE R-region gives **finite p_c ≈ 0.055**; the proxy `p_c→0` was an artifact. |
 | Novelty / prior art | [`docs/NOVELTY.md`](docs/NOVELTY.md) | **⚠ DOWNGRADED from GREEN** — #4 headline retracted. Literature niche still open; surviving angles = extensive clean R-region, #1/#3, proxy-artifact caution, hat↔Spectre contrast. |
 | Curated bibliography | [`docs/REFLIST.md`](docs/REFLIST.md) | References + per-ref "how to use when writing" hints — kept fresh as work proceeds. |
-| Future / live direction: Spectre | [`docs/SPECTRE_TODO.md`](docs/SPECTRE_TODO.md) | Coarse result: strictly-chiral Spectre has **no zero-flux clean modes** (vs hat's extensive) → *local order, not aperiodicity, drives the modes*. Pipeline runs on `hat_amp.spectre` unchanged. |
+| Future / live direction: Spectre | [`docs/SPECTRE_TODO.md`](docs/SPECTRE_TODO.md) | Strictly-chiral Spectre has **no zero-flux clean modes** (vs hat's extensive) → *local order, not aperiodicity, drives the modes*. **π-flux now in-pipeline + reconciled (2026-06-07, `src/hatsoff/flux.py`):** count gate reproduces hat 1/3/22/147 ⇒ our edge convention = Schirmann's; natural Spectre clean π-flux nullity = N_Mystic/2 (one mode per Mystic), and the 33k-unit dilution campaign shows the clean kernel is **100% Mystic-localized (TD limit)**, enrichment → 1 under dilution. Pipeline runs on `hat_amp.spectre` unchanged. |
 | Deep-research scans | [`docs/compass_artifact_…_text_markdown.md`](docs) | Two verbatim web scans: `*95d25a67*` = novelty (Q1/Q2); `*9cb25304*` = Spectre frontier. |
 | Re-run literature scan | [`docs/deepresearch_prompt.md`](docs/deepresearch_prompt.md) | Focused follow-up prompt (open questions only) for a web deep-research tool. |
 
@@ -52,9 +52,13 @@ src/hatsoff/
   matching.py      # matching_number, deficiency, gallai_edmonds (fast blossom + slow reference), nullspace_support
   support.py       # kernel_support (nullity + diag(P)), support_spanning (proximity percolation); pluggable dense-eigh backend
   multifractal.py  # participation ratios, D2 scaling (Phase 2 scaffolding)
+  flux.py          # π-flux Peierls complex Hamiltonian + flux_kernel (dense complex eigh / RRR subset); tile_area, label_vertex_mask (Mystic sites)
 
 experiments/
   dilution_sweep.py        # L2 site-dilution sweep + figure
+  spectre_reconcile.py     # Spectre long-edge convention reconciliation (direct/split/gold, 0 & π flux, N_Mystic)
+  spectre_flux_campaign.py # π-flux Spectre site-dilution campaign (resumable, parallel, BLAS-pinned)
+  spectre_flux_analysis.py # aggregate + figure (nullity density, Mystic enrichment, support PR vs p)
   l3_campaign.py           # single-node resumable campaign (Stage A: scalar/GE scaling; Stage B: support spanning)
   l3_campaign_cluster.py   # SLURM multi-node edition (sharded, per-rank JSONL shards, optional GPU eigh)
   submit_l3.sbatch         # SLURM submission script (3x A100 example)

@@ -42,6 +42,12 @@ PRL **132**, 086402 (2024); arXiv:2307.11054.
 - **How to use:** "We reproduce the clean-limit counts of Ref. [S2] (our count
   gate, `docs/NULLITY.md`), then extend to dilution + matching structure, which
   [S2] does not treat." This is our baseline and our reproduction target.
+- **π-flux count gate reproduced in-pipeline (2026-06-07, `tests/test_flux.py`,
+  `src/hatsoff/flux.py`):** both the zero-flux 0/1/8/51 *and* the π-flux
+  **1/3/22/147** (= anti-hat counts) now come out of *our* `build_tb_graph` graph
+  — parameter-free proof our edge convention equals [S2]'s. Lets us quantify
+  [S2]'s data-free Spectre claim: the natural Spectre's clean π-flux nullity =
+  N_Mystic/2 (one mode per Mystic compound). See `docs/SPECTRE_TODO.md`.
 - **Note:** Flicker also co-authors the Penrose-dimer PRX [F1] → he bridges the
   monotile and matching/dimer worlds. Competitive-overlap flag.
 

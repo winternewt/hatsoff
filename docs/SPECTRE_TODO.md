@@ -32,11 +32,72 @@ modes on aperiodic monotiles is local order, not aperiodicity per se.**
 
 **Caveats:** (i) nullity=0 holds for both gold/no-gold constructions here, but the
 natural-graph long-edge convention (split vs direct) must be reconciled with
-Schirmann et al.'s exact Spectre TB model before it is load-bearing. (ii) The
-*rich* Spectre zero-mode physics Schirmann/Singh–Flicker describe is at **π-flux**
-(Mystic-localized modes), which our zero-flux pipeline does not yet probe — that
-is where strict chirality could genuinely change the percolation, and where the
-Mystic-nucleation conjecture lives.
+Schirmann et al.'s exact Spectre TB model before it is load-bearing. **[RESOLVED
+2026-06-07 — see "π-flux reconciliation" below.]** (ii) The *rich* Spectre
+zero-mode physics Schirmann/Singh–Flicker describe is at **π-flux** (Mystic-
+localized modes), which our zero-flux pipeline does not yet probe. **[NOW PROBED
+2026-06-07 — π-flux Hamiltonian ported to `src/hatsoff/flux.py`; see below.]**
+
+## π-flux reconciliation + Mystic sector (2026-06-07)
+
+`src/hatsoff/flux.py` ports the Peierls complex-Hermitian π-flux Hamiltonian
+(`H_ij = -exp(-0.5j·B·(x_i−x_j)(y_i+y_j))`, `B = π/A_tile`; uniform π per equal-
+area tile face) into the pipeline.  **Count gate (`tests/test_flux.py`):** on the
+hat, `build_tb_graph`'s graph reproduces the π-flux counts **1/3/22/147** (= the
+anti-hat counts of Franca/Schirmann), exactly as it already reproduces the zero-
+flux 0/1/8/51.  This is the parameter-free proof that **our edge convention
+equals Schirmann's**, settling caveat (i).  Matching/Gallai–Edmonds does *not*
+apply at π flux (complex H); nullity is by dense complex `eigh` — and only the
+kernel eigenpairs are needed, so the RRR value-subset
+(`scipy.linalg.eigh(driver='evr', subset_by_value=(-1e-6,1e-6))`) gives the count
+~5× faster than a full spectrum and, unlike `eigsh`, resolves the deeply
+degenerate null space exactly (verified to 305-fold degeneracy).
+
+**Clean-point reconciliation (`experiments/spectre_reconcile.py`,
+`spectre_reconcile.json`).**  Three constructions × {0, π} flux × L1–L3:
+
+| level | construction | N | nullity(0) | nullity(π) | N_Mystic | π/N_Mystic |
+|---|---|---|---|---|---|---|
+| 1 | natural-direct | 73   | 0 | 0   | 2   | 0.00 |
+| 1 | natural-split  | 73   | 0 | 1   | 2   | 0.50 |
+| 1 | with-gold      | 78   | 0 | 4   | 2   | 2.00 |
+| 2 | natural-direct | 491  | 0 | 0   | 16  | 0.00 |
+| 2 | natural-split  | 491  | 0 | 8   | 16  | 0.50 |
+| 2 | with-gold      | 518  | 0 | 18  | 16  | 1.12 |
+| 3 | natural-direct | 3563 | 0 | 0   | 126 | 0.00 |
+| 3 | natural-split  | 3563 | 0 | **63**  | 126 | **0.50** |
+| 3 | with-gold      | 3734 | 0 | 126 | 126 | 1.00 |
+
+- **natural-split** (= `build_tb_graph` on gold-stripped 13-gons; the long edge
+  passes through a *real* shared neighbour vertex, so it is two unit bonds, never
+  a chord — exactly how the hat type-c edge is treated) is the **Schirmann-
+  consistent** construction, and is **locked** for all π-flux work.
+- **natural-direct** wrongly adds the length-2 edge as a redundant *chord* on top
+  of the two unit bonds (E=4427 vs 4121 at L3) → kills the π-flux modes (π=0). Not
+  the natural graph.
+- **with-gold** is Singh–Flicker's bipartization (an extra degree-2 vertex per
+  tile), a *different* model — doubles the count.
+
+**Headline:** zero-flux nullity = 0 at every level (robustly confirms the coarse
+result), while the natural Spectre's **clean π-flux nullity = N_Mystic/2 = the
+number of Mystic *compounds*** — i.e. **exactly one protected π-flux zero mode
+per Mystic**, the strict-chiral analogue of "one per anti-hat" on the hat.  This
+is the first *quantitative* check of Schirmann et al.'s data-free assertion that
+anti-spectres exhaust the π-flux zero modes.
+
+(NB measured Mystic-tile fraction is a level-independent **22.5%** — 'M' counts
+both Gamma halves, so 11.25% Mystic compounds; the deep-research artifact's "~1
+per 26.6 vertices" is not what the generator yields — flag for the write-up.)
+
+**Dilution campaign (`experiments/spectre_flux_campaign.py`, running 2026-06-07,
+10h, resumable JSONL + heartbeat, 15-way `multiprocessing`, BLAS pinned to 1).**
+L3 natural-split full graph + 6 cropped windows (N≈793→3563), p∈[0,0.40] (14
+points) × up to 1000 seeds.  Per unit: π-flux nullity, Mystic-support fraction
+(gauge-invariant `diag(P)` on 'M' sites — the Mystic-nucleation probe), and the
+support-field participation ratio.  Smoke run: clean kernel **~79% Mystic-
+localized**, dilution *creates* modes (35→77→168 in a window) while the Mystic
+fraction falls (0.79→0.58→0.40).  Analysis/figure: `spectre_flux_analysis.py` →
+`docs/figures/spectre_flux.png`.
 
 ## Why it's attractive
 
