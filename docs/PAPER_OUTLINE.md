@@ -75,7 +75,9 @@ Schirmann et al.'s one paragraph. Niche confirmed open (NOVELTY.md Q1/Q2).
    hand:* clean band-centre states are **multifractal** on both substrates
    (D2: hat 0.64, Spectre 0.71; `multifractal_clean.py`), and the diluted π-flux
    zero-mode support is **extended** (τ≈0.95; `spectre_flux_multifractal.py`).
-   A π-flux spanning probe exists but is d0-proxy-only (suggestive).
+   The π-flux Mystic support does **not percolate** (spanning probe: P(span)≪0.5,
+   decreases with size → enrichment→1 is a crossover, not a de-percolation
+   transition; robust even though the probe is a d0-proxy biased toward spanning).
 
 ## Status of evidence (what exists vs to-do)
 

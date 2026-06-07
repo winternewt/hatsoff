@@ -173,12 +173,22 @@ Cheap follow-ups (deferred the expensive disorder-averaged D_q program):
   **multifractal critical band-centre states** (0<D2<1); the hat is slightly
   *more* multifractal. (Connects to Daníelsson–Sigurðsson hat multifractality,
   REFLIST.) Caveat: 3 sizes, clean only — a first look, not the full D_q spectrum.
-- **π-flux spanning probe** (`spectre_flux_spanning_campaign.py` →
+- **π-flux spanning probe** (`spectre_flux_spanning_campaign.py`, 6604 units →
   `spectre_flux_spanning.jsonl`; `spectre_flux_spanning_analysis.py` →
-  `docs/figures/spectre_flux_spanning.png`). Records `support_spanning` over
-  d0∈{1.2,1.6,2.0} × window family. **⚠ d0-PROXY only** (no GE analog at π flux);
-  read across d0/sizes, treat as suggestive. The robust crossover statement is
-  Tier A / `spectre_flux_consolidate.py`.
+  `docs/figures/spectre_flux_spanning.png`). `support_spanning` over
+  d0∈{1.2,1.6,2.0} × 4 windows × p∈[0,0.40] × 150 seeds. **Result: the
+  Mystic-localized π-flux support does NOT percolate.** P(span) stays well below
+  0.5 at every p (max ≈0.29, only at the most permissive d0=2.0 on the *smallest*
+  window); largest cluster fraction ≤0.14 (fragmented). The weak large-d0
+  spanning **decreases with window size** (L0.5≈0.29 → L0.95≈0.04) — the opposite
+  of a percolation transition (which sharpens upward with size), i.e. a
+  finite-size artifact. ⇒ **no de-percolation transition**: there is no spanning
+  phase to lose, so the enrichment→1 is a **smooth delocalization crossover**, not
+  a transition — consistent with Tier A (τ≈0.95) and the consolidation (p*≈0.15).
+  **The negative is robust:** this d0-proxy is *biased toward* false-positive
+  spanning (it is exactly the probe that faked p_c→0 on the hat by over-connecting),
+  yet it finds essentially no spanning here. So although ⚠ no parameter-free GE
+  probe exists at π flux, the crossover-not-transition conclusion is well-supported.
 
 ## Why it's attractive
 
